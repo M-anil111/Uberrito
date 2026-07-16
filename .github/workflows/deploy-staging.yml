@@ -1,0 +1,88 @@
+name: Deploy to staging
+
+# Deploys the custom code tracked in this repo (wp-content themes/plugins)
+# to the staging server over SSH/rsync. Runs on every push to main and can
+# be triggered manually from the Actions tab.
+#
+# Requires repository secrets (Settings → Secrets and variables → Actions):
+#   STAGING_SSH_HOST   e.g. staging.uberrito.com or the server IP
+#   STAGING_SSH_USER   SSH/SFTP username
+#   STAGING_SSH_KEY    private key for that user (PEM, no passphrase)
+#   STAGING_SSH_PORT   optional, defaults to 22
+#   STAGING_WP_PATH    absolute path to the WordPress root on the server
+#
+# Until these secrets are set, the workflow runs but skips the deploy with
+# a notice — it will not fail the build. See docs/DEPLOYMENT.md.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: staging-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check deploy configuration
+        id: config
+        env:
+          HOST: ${{ secrets.STAGING_SSH_HOST }}
+          USER: ${{ secrets.STAGING_SSH_USER }}
+          KEY: ${{ secrets.STAGING_SSH_KEY }}
+          WP_PATH: ${{ secrets.STAGING_WP_PATH }}
+        run: |
+          if [ -z "$HOST" ] || [ -z "$USER" ] || [ -z "$KEY" ] || [ -z "$WP_PATH" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Staging deploy secrets are not configured yet — skipping deploy. See docs/DEPLOYMENT.md for setup."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up SSH
+        if: steps.config.outputs.configured == 'true'
+        env:
+          SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          SSH_PORT: ${{ secrets.STAGING_SSH_PORT || '22' }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy tracked wp-content code (rsync)
+        if: steps.config.outputs.configured == 'true'
+        env:
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          SSH_USER: ${{ secrets.STAGING_SSH_USER }}
+          SSH_PORT: ${{ secrets.STAGING_SSH_PORT || '22' }}
+          WP_PATH: ${{ secrets.STAGING_WP_PATH }}
+        run: |
+          # Only files tracked by git are deployed; nothing on the server is
+          # deleted (third-party plugins/uploads live only on the server).
+          git ls-files wp-content > /tmp/deploy-files.txt
+          if [ ! -s /tmp/deploy-files.txt ]; then
+            echo "No custom wp-content code tracked yet — nothing to deploy."
+            exit 0
+          fi
+          rsync -rlvz \
+            --files-from=/tmp/deploy-files.txt \
+            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
+            ./ "$SSH_USER@$SSH_HOST:$WP_PATH/"
+
+      - name: Flush caches via WP-CLI (if available on server)
+        if: steps.config.outputs.configured == 'true'
+        env:
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          SSH_USER: ${{ secrets.STAGING_SSH_USER }}
+          SSH_PORT: ${{ secrets.STAGING_SSH_PORT || '22' }}
+          WP_PATH: ${{ secrets.STAGING_WP_PATH }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "cd '$WP_PATH' && if command -v wp >/dev/null 2>&1; then wp cache flush && wp litespeed-purge all 2>/dev/null || true; else echo 'wp-cli not installed on server — skipping cache flush'; fi"

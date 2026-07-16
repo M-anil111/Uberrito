@@ -32,9 +32,18 @@ staging site is a fresh, stock WordPress install with no custom code yet.
 
 1. Branch from `main` for each piece of work.
 2. Commit custom theme/plugin code here.
-3. Open a PR; deploy reviewed code to staging for QA at
-   https://staging.uberrito.com.
-4. Promote to production after sign-off.
+3. Open a PR — CI runs PHP syntax checks + WordPress coding standards
+   automatically.
+4. Merge to `main` — the deploy workflow pushes tracked code to staging for
+   QA at https://staging.uberrito.com.
+5. Promote to production after sign-off.
+
+More detail:
+
+- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) — GitHub CLI + WP-CLI setup,
+  branch workflow, local linting
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) — CI/CD pipeline and the
+  one-time secrets setup needed to enable staging deploys
 
 **Never commit:** `wp-config.php`, salts/keys, API keys, database dumps, or
 anything from `wp-content/uploads/`.
