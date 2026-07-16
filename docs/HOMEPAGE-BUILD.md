@@ -52,10 +52,19 @@ Respects `prefers-reduced-motion`.
 
 Additional motion:
 - **Scroll progress bar** (`#ubr-progress`) — orange→green gradient at the top.
-- **Parallax** on the hero image (`.ubr-parallax`, rAF-throttled).
-- Cards/tiles lift on hover (`.ubr-tile`).
+- **Scrub parallax** on the hero image (`.ubr-parallax`, rAF-throttled), plus a
+  native scroll-driven scale/fade scrub (`.ubr-scrub` via
+  `animation-timeline: view()`) on supporting browsers, static fallback otherwise.
+- **3D depth reveal** — `.ubr-zoom` elements tilt in on scroll with
+  `perspective + rotateX` for a "3D scroll" effect (driven by the same observer,
+  so it works cross-browser).
+- **Interactive pointer tilt** — `.ubr-tile` cards tilt toward the cursor
+  (`rotateX/Y` up to 6°) on fine-pointer devices.
+- **Magnetic buttons** — primary buttons ease slightly toward the pointer.
 
-All effects use GPU-cheap `transform`/`opacity` only.
+Motion follows the `ui-ux-pro-max` skill's rules: `transform`/`opacity` only,
+small offsets/angles, 1–2 animated elements per view, and all effects are
+disabled under `prefers-reduced-motion` and on touch/coarse-pointer devices.
 
 ## Conversion features
 
