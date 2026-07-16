@@ -77,10 +77,13 @@ Built to drive orders, members, app installs, and SMS/email opt-ins:
   nav stays on desktop.
 - **Mobile sticky action bar** (`.ubr-mobilebar`) — fixed bottom bar with an
   orange **Order Now** plus **Locations** and **Rewards**.
-- **Lead-capture popup** (Elementor Pro popup, id 49) — "Get 20% Off Your First
-  Order", email + mobile fields, triggered after 8s or on exit-intent, shown
-  once per session (sessionStorage). Directly serves the #1 goal (SMS/email
-  enrollment).
+- **Lead-capture popup** (Elementor Pro popup, id 49) — two-column: appetizing
+  food photo with a "20% OFF" burst on the left, dark-green form on the right
+  with **First name, Last name, Email, Mobile**, and a clear close button.
+  Triggered after 7s or on exit-intent and shown **once per 30 days via a
+  cookie** (`ubr_popup_seen`). On submit it emails the lead to the admin and
+  redirects to the Toast rewards signup. Directly serves the #1 goal (SMS/email
+  enrollment). **Backend routing (ESP/Toast) pending client decision.**
 - **Order Now** buttons use the vibrant **Uberrito Orange** (`#EC5A2A`)
   site-wide so the primary conversion action always pops; secondary actions
   stay forest-green/outline.
