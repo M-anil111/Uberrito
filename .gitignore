@@ -26,12 +26,16 @@ wp-config-*.php
 /wp-content/object-cache.php
 /wp-content/debug.log
 
-# Third-party themes/plugins are installed via WP admin, not tracked.
-# Un-ignore specific custom themes/plugins explicitly as they are built.
-/wp-content/themes/twentytwenty*/
-/wp-content/plugins/litespeed-cache/
-/wp-content/plugins/akismet/
-/wp-content/plugins/hello.php
+# Ignore all themes and plugins by default so third-party/vendor code
+# installed via WP admin is never tracked accidentally.
+/wp-content/themes/*
+!/wp-content/themes/index.php
+/wp-content/plugins/*
+!/wp-content/plugins/index.php
+
+# Un-ignore custom themes/plugins explicitly as they are built, e.g.:
+# !/wp-content/themes/uberrito-theme/
+# !/wp-content/plugins/uberrito-plugin/
 
 # --- Tooling ---
 node_modules/
