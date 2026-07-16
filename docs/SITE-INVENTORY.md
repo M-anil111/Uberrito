@@ -22,11 +22,11 @@ has now been installed and activated — no custom theme/plugin code yet.
 
 | Theme | Status |
 |---|---|
-| Twenty Twenty-Five | **Active** |
-| Twenty Twenty-Four | Installed |
-| Twenty Twenty-Three | Installed |
+| Hello Elementor | **Active** (base theme for the Elementor Pro build) |
+| Twenty Twenty-Five / -Four / -Three | Installed (stock) |
 
-All are stock WordPress themes (not tracked in git).
+The homepage is built in Elementor Pro on Hello Elementor — see
+[`HOMEPAGE-BUILD.md`](HOMEPAGE-BUILD.md).
 
 ## Plugins
 
