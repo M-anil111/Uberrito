@@ -40,16 +40,47 @@ with CAVA-style warmth and simplicity.
 All "Order Now" / Pickup CTAs point to the live Toast ordering URLs; Rewards
 CTAs point to the Toast rewards signup.
 
-## Scroll animations
+## Scroll animations (Apple-style)
 
 Elementor's built-in entrance animations were replaced with a lightweight
 **IntersectionObserver reveal system** (`.ubr-reveal`, `.ubr-zoom`,
-`.ubr-right` + staggered `.ubr-d1..d4` delays). This avoids the
-LiteSpeed-delayed-JS problem where Elementor animations leave elements stuck
-invisible until user interaction. Respects `prefers-reduced-motion`.
+`.ubr-right` + staggered `.ubr-d1..d4` delays) using premium easing
+(`cubic-bezier(.22,1,.36,1)`), scale, and directional translate for a slick
+"fly-through" feel. This also avoids the LiteSpeed-delayed-JS problem where
+Elementor animations leave elements stuck invisible until user interaction.
+Respects `prefers-reduced-motion`.
 
-Menu tiles, protein circles, location and rewards cards lift on hover
-(`.ubr-tile`).
+Additional motion:
+- **Scroll progress bar** (`#ubr-progress`) — orange→green gradient at the top.
+- **Parallax** on the hero image (`.ubr-parallax`, rAF-throttled).
+- Cards/tiles lift on hover (`.ubr-tile`).
+
+All effects use GPU-cheap `transform`/`opacity` only.
+
+## Conversion features
+
+Built to drive orders, members, app installs, and SMS/email opt-ins:
+
+- **Full-screen mobile menu** (`.ubr-menu`) — Chipotle-style: big Oswald links
+  with orange arrows, an orange **Join Über Rewards** card
+  (Create Account / "Already a member? Sign in"), Order Now, social icons, and
+  a faint Ü stamp watermark. Opened by a custom hamburger; native horizontal
+  nav stays on desktop.
+- **Mobile sticky action bar** (`.ubr-mobilebar`) — fixed bottom bar with an
+  orange **Order Now** plus **Locations** and **Rewards**.
+- **Lead-capture popup** (Elementor Pro popup, id 49) — "Get 20% Off Your First
+  Order", email + mobile fields, triggered after 8s or on exit-intent, shown
+  once per session (sessionStorage). Directly serves the #1 goal (SMS/email
+  enrollment).
+- **Order Now** buttons use the vibrant **Uberrito Orange** (`#EC5A2A`)
+  site-wide so the primary conversion action always pops; secondary actions
+  stay forest-green/outline.
+
+## Footer
+
+Four groups (brand, Explore, Support, Order). On mobile it collapses to a
+**two-column grid** (brand spans full width) with Sitemap and Privacy Policy
+added under Support. Social icons use each network's brand color.
 
 ## Performance (toward 100 PageSpeed)
 
@@ -64,11 +95,19 @@ Applied on staging:
 - **Object cache**: Redis (already provisioned on the host).
 - **Lean DOM**: ~760 nodes on the homepage.
 
-**Note:** a formal Google PageSpeed Insights score should be run against the
-production domain after launch (the shared PSI API quota was exhausted during
-the build, and staging measured through the dev proxy is not representative of
-real HTTP/2 + edge-cache performance). All the standard 90-100-range levers
-are in place.
+The scroll animations add only a few KB of inline JS and GPU-cheap
+transforms, so they do not meaningfully affect the score.
+
+**On the PageSpeed number:** a *certified* score could not be generated from
+the build sandbox — the shared anonymous PageSpeed Insights API quota was
+exhausted (HTTP 429), and the sandbox egress proxy returns an interstitial to
+headless Chrome, so a local Lighthouse run against staging isn't
+representative either. The certified number must be read from
+https://pagespeed.web.dev/ against the real domain (one click), or via the PSI
+API with a project API key. All the standard 90-100-range levers are in place
+(full-page cache, minified/deferred CSS+JS, UCSS, WebP, lazy-load, Redis
+object cache, lean ~760-node DOM), but we should not claim "100" until it's
+measured on the live domain.
 
 ## How it was built
 
