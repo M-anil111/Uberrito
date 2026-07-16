@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "novamira-staging-uberrito": {
+      "type": "http",
+      "url": "https://staging.uberrito.com/wp-json/mcp/novamira",
+      "headers": {
+        "Authorization": "Basic ${NOVAMIRA_MCP_AUTH}"
+      }
+    }
+  }
+}

@@ -49,6 +49,25 @@ The WordPress REST API on staging also supports **Application Passwords**
 (wp-admin → Users → Profile → Application Passwords) for programmatic access
 without SSH.
 
+## Novamira MCP server (AI-agent access to staging)
+
+Staging runs the [Novamira](https://www.novamira.ai) plugin, which exposes an
+MCP server at `https://staging.uberrito.com/wp-json/mcp/novamira` with
+abilities to execute PHP, read/write/edit files, and create upload links on
+the staging server. **Staging/dev use only — never install on production.**
+
+The repo-level [`.mcp.json`](../.mcp.json) registers this server for Claude
+Code automatically. It authenticates with a WordPress Application Password
+via the `NOVAMIRA_MCP_AUTH` environment variable (never committed):
+
+1. In staging wp-admin → Users → Profile → Application Passwords, create one
+   (e.g. named after yourself or the tool).
+2. Base64-encode `username:application-password`:
+   `printf '%s' 'you@example.com:xxxx xxxx xxxx xxxx xxxx xxxx' | base64`
+3. Set `NOVAMIRA_MCP_AUTH` to that value in your shell profile, or for
+   Claude Code on the web add it as an environment variable in the
+   environment settings.
+
 ## Branch & PR workflow
 
 1. `git checkout -b feature/<short-name>` from `main`.
