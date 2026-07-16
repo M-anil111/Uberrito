@@ -1,11 +1,13 @@
 # Staging Site Inventory — baseline
 
-Recorded from https://staging.uberrito.com on **2026-07-15** (via wp-admin).
+Recorded from https://staging.uberrito.com on **2026-07-15** (via wp-admin);
+plugin stack installed **2026-07-16**.
 
 ## Summary
 
-The staging site is a **fresh, stock WordPress install**. There is no custom
-theme, plugin, or content yet — this repo starts from a clean slate.
+The staging site started as a fresh, stock WordPress install. The build
+stack (Elementor + Elementor Pro, Rank Math SEO + Pro, Wordfence, Novamira)
+has now been installed and activated — no custom theme/plugin code yet.
 
 ## Core
 
@@ -31,10 +33,18 @@ All are stock WordPress themes (not tracked in git).
 | Plugin | Version | Status |
 |---|---|---|
 | LiteSpeed Cache | 7.8.1 | **Active** |
+| Elementor | 3.33.2 | **Active** |
+| Elementor Pro | 3.32.2 | **Active** |
+| Rank Math SEO | (free, auto-installed as Pro dependency) | **Active** |
+| Rank Math SEO Pro | — | **Active** |
+| Wordfence Security | 8.1.2 | **Active** |
+| Novamira (MCP server for AI agents; staging/dev only) | 1.7.0 | **Active** |
 | Akismet Anti-spam | 5.7 | Inactive |
 | Hello Dolly | 1.7.2 | Inactive |
 
-All are stock/third-party plugins (not tracked in git).
+All are third-party plugins (not tracked in git). Premium plugins
+(Elementor Pro, Rank Math Pro) were installed from licensed zips uploaded
+via wp-admin on 2026-07-16.
 
 ## Hosting notes
 
