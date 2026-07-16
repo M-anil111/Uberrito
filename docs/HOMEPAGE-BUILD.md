@@ -135,3 +135,19 @@ folder into the staging media library.
 - **Catering price anchor**: `$12/person` is a placeholder.
 - **License keys**: enter Elementor Pro + Rank Math Pro license keys in
   wp-admin to enable updates and pro template libraries.
+
+
+## Creative hero (v2)
+
+The hero was redesigned to break away from the old-site look:
+- **Kinetic headline** — "A Whole New Way to <rotating word>" cycling
+  Burrito → Bowl → Taco → Nacho → Quesadilla (orange, JS rotator).
+- **Layered food stage** — the dish sits in a circular plate with floating
+  lime, pepper, and avocado cutouts and a slowly spinning Ü stamp watermark,
+  over a sage→cream gradient with soft brand blobs.
+- **Mobile-visible motion** — the float and spin animations are pure CSS
+  keyframes (not pointer-driven), so they play on phones too; the word
+  rotator runs everywhere. Disabled under `prefers-reduced-motion`.
+
+The mobile header hamburger is a dedicated inline-styled element (immune to
+the global button styling that previously mis-rendered it as an orange pill).
