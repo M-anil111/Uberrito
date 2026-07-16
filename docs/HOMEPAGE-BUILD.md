@@ -154,3 +154,36 @@ The hero was redesigned to break away from the old-site look:
 
 The mobile header hamburger is a dedicated inline-styled element (immune to
 the global button styling that previously mis-rendered it as an orange pill).
+
+
+## Redesign to client mockup (v3)
+
+The homepage was rebuilt to match the client's full design mockup:
+- **Hero** — "FRESH. BOLD. MADE DAILY." (MADE DAILY in bright green) + subtitle,
+  Order Now / View Menu, trust row (4.8★ Google · Fresh Daily · Texas Locations),
+  food photo right.
+- **What Are You In The Mood For** — 6 circular category photos (Burritos, Bowls,
+  Tacos, Salads, Kids, Sides & Drinks).
+- **Summer LTO**, **Our Best Sellers** (4 product cards with price + calories),
+  **Build Your Perfect Meal** (dark-green 5-step: Base→Protein→Toppings→Sauce→Checkout),
+  **Catering Made Easy**, **Eat More. Earn More.**, **Find Your Nearest**,
+  **lifestyle 3-photo strip** (real store-interior shots).
+- **Header**: Menu · Catering · Rewards · Locations · About + Sign In + Order Now.
+- **Footer**: dark green, Menu/Company/Support/Get The App columns with App Store
+  + Google Play badges.
+- **Primary buttons** switched to the mockup's dark green (bright-green hover);
+  brighter green (#5E9E2E) used for accent words.
+
+**Real photography** (11 shots) was pulled from the client Google Drive
+(Food/Store/Instagram folders) — sideloaded to the media library — replacing the
+old foil-burrito and cut-out PNGs.
+
+### Pending on this redesign
+- Best-seller **prices/calories** are from the mockup — confirm real values.
+- **Kids** category + one best-seller use placeholder photos; swap when dedicated
+  shots are available.
+- **Find Your Nearest** uses location buttons; a live map/zip finder can be added.
+- Hero uses a real lifestyle shot; the exact mockup "spilling burrito" render would
+  need to be supplied.
+- **Toast API** lead capture: needs Toast partner API credentials (interim =
+  email to staff + redirect to Toast rewards signup).
