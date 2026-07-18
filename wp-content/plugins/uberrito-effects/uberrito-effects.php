@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Brand tokens. Kept as constants so the palette lives in one place.
  */
-const UBR_FX_GREEN        = '#1F4D2C'; // Forest green.
-const UBR_FX_GREEN_DEEP   = '#12351d'; // Darker green (gradient end).
-const UBR_FX_ORANGE       = '#EC5A2A'; // Überrito orange (glow / accents).
+const UBR_FX_GREEN         = '#1F4D2C'; // Forest green.
+const UBR_FX_GREEN_DEEP    = '#12351d'; // Darker green (gradient end).
+const UBR_FX_ORANGE        = '#EC5A2A'; // Überrito orange (glow / accents).
 const UBR_FX_LOGO_FALLBACK = '/wp-content/uploads/2026/07/uberrito-horz-1.png';
 
 /**
@@ -78,7 +78,6 @@ add_action( 'wp_head', 'ubr_fx_css', 99 );
  * Print the curtain + menu-reveal JS before </body>.
  */
 function ubr_fx_js() {
-	$fallback = esc_js( UBR_FX_LOGO_FALLBACK );
 	?>
 <script id="ubr-fx-js">
 (function () {
@@ -89,7 +88,7 @@ function ubr_fx_js() {
 	var LOGO_URL = '';
 	var found = document.querySelector('header img[src*="logo" i], img[src*="uberrito-horz" i], .site-logo img, img.logo');
 	if (found) { LOGO_URL = found.currentSrc || found.getAttribute('data-src') || found.src; }
-	if (!LOGO_URL) { LOGO_URL = '<?php echo $fallback; ?>'; }
+	if (!LOGO_URL) { LOGO_URL = '<?php echo esc_js( UBR_FX_LOGO_FALLBACK ); ?>'; }
 
 	var c = document.createElement('div'); c.id = 'ubr-curtain';
 	var img = document.createElement('img'); img.alt = ''; if (LOGO_URL) img.src = LOGO_URL;
