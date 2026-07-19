@@ -36,7 +36,6 @@ wp-config-*.php
 # Un-ignore custom themes/plugins explicitly as they are built, e.g.:
 # !/wp-content/themes/uberrito-theme/
 # !/wp-content/plugins/uberrito-plugin/
-!/wp-content/plugins/uberrito-effects/
 
 # --- Tooling ---
 node_modules/
