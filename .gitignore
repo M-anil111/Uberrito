@@ -1,0 +1,47 @@
+# --- WordPress core (managed by the host / WP updates, not git) ---
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/xmlrpc.php
+/license.txt
+/readme.html
+
+# Never commit configuration or credentials
+wp-config.php
+wp-config-*.php
+.env
+.env.*
+*.sql
+*.sql.gz
+
+# --- wp-content: track custom code only ---
+/wp-content/uploads/
+/wp-content/upgrade/
+/wp-content/cache/
+/wp-content/backup*/
+/wp-content/litespeed/
+/wp-content/index.php
+/wp-content/advanced-cache.php
+/wp-content/object-cache.php
+/wp-content/debug.log
+
+# Ignore all themes and plugins by default so third-party/vendor code
+# installed via WP admin is never tracked accidentally.
+/wp-content/themes/*
+!/wp-content/themes/index.php
+/wp-content/plugins/*
+!/wp-content/plugins/index.php
+
+# Un-ignore custom themes/plugins explicitly as they are built, e.g.:
+# !/wp-content/themes/uberrito-theme/
+# !/wp-content/plugins/uberrito-plugin/
+
+# --- Tooling ---
+node_modules/
+vendor/
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/

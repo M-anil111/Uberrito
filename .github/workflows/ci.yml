@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  php-syntax:
+    name: PHP syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Lint all tracked PHP files
+        run: |
+          files=$(git ls-files '*.php')
+          if [ -z "$files" ]; then
+            echo "No PHP files tracked yet — nothing to lint."
+            exit 0
+          fi
+          fail=0
+          for f in $files; do
+            php -l "$f" || fail=1
+          done
+          exit $fail
+
+  phpcs:
+    name: WordPress coding standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Install WordPress Coding Standards
+        run: |
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --no-interaction \
+            wp-coding-standards/wpcs:"^3.1" \
+            dealerdirect/phpcodesniffer-composer-installer:"^1.0"
+          echo "$(composer global config bin-dir --absolute --quiet)" >> "$GITHUB_PATH"
+
+      - name: Run PHPCS on custom code
+        run: |
+          files=$(git ls-files 'wp-content/*.php' 'wp-content/**/*.php')
+          if [ -z "$files" ]; then
+            echo "No custom wp-content PHP yet — skipping PHPCS."
+            exit 0
+          fi
+          phpcs --standard=WordPress-Extra --extensions=php wp-content/

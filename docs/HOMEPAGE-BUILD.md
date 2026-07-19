@@ -1,0 +1,189 @@
+# Homepage Build — Elementor Pro
+
+The staging homepage (https://staging.uberrito.com) is built entirely in
+**Elementor Pro**, block by block, on the **Hello Elementor** theme. It
+follows the approved mockups (green-on-cream "Fresh. Bold. Mexican." look)
+with CAVA-style warmth and simplicity.
+
+## Design system (Elementor global kit)
+
+| Token | Value | Use |
+|---|---|---|
+| Forest Green | `#1F4D2C` | primary brand, headings, buttons |
+| Lime | `#8CBF3F` | accent highlights, "→", emphasis words |
+| Charcoal | `#2E2E28` | body text |
+| Sage | `#EEF4E3` | section backgrounds |
+| Cream | `#FAF7EE` | alternating section backgrounds |
+| Sage Deep | `#DDE8C9` | newsletter block background |
+
+- **Display font:** Oswald (condensed, uppercase H1/H2) — matches the bold
+  headline treatment in the mockups.
+- **Body/UI font:** Poppins.
+- **Buttons:** forest-green pills, uppercase, lime hover.
+- Global logo + favicon set from the official brand horizontal logo.
+
+## Section order (top → bottom)
+
+1. **Hero** — "Fresh. Bold. Burritos Made Daily." + Order Now / Explore Menu, trust ticks, parallax burrito image.
+2. **Limited Time Offer** — "Summer Just Got More Delicious" split card.
+3. **Summer Faves** — two seasonal item cards (steak burrito, chicken bowl).
+4. **Find Your Flavors** — 6-tile menu category grid (Burritos, Bowls, Quesadillas & Nachos, Salads, Chips/Dips/Sides, Soups), each linking to Toast ordering.
+5. **Get That Protein** — 6 protein circles + Build Your Bowl.
+6. **Uberrito Rewards** — "Eat More. Earn More. Enjoy More." 3-step explainer.
+7. **Stay In The Loop** — email + SMS signup (Elementor form).
+8. **Order From Your Location** — two location cards, Pickup / Delivery buttons.
+9. **Catering Made Easy** — pitch + "Starting at $12/person" + Get a Quote.
+10. **Mobile App** — App Store CTA.
+11. **Why Uberrito** — Fresh Ingredients / Made Fresh Daily / 40+ Ingredients trust cards.
+12. **Header** (sticky, Theme Builder) + **Footer** (4-column, CAVA-style).
+
+All "Order Now" / Pickup CTAs point to the live Toast ordering URLs; Rewards
+CTAs point to the Toast rewards signup.
+
+## Scroll animations (Apple-style)
+
+Elementor's built-in entrance animations were replaced with a lightweight
+**IntersectionObserver reveal system** (`.ubr-reveal`, `.ubr-zoom`,
+`.ubr-right` + staggered `.ubr-d1..d4` delays) using premium easing
+(`cubic-bezier(.22,1,.36,1)`), scale, and directional translate for a slick
+"fly-through" feel. This also avoids the LiteSpeed-delayed-JS problem where
+Elementor animations leave elements stuck invisible until user interaction.
+Respects `prefers-reduced-motion`.
+
+Additional motion:
+- **Scroll progress bar** (`#ubr-progress`) — orange→green gradient at the top.
+- **Scrub parallax** on the hero image (`.ubr-parallax`, rAF-throttled), plus a
+  native scroll-driven scale/fade scrub (`.ubr-scrub` via
+  `animation-timeline: view()`) on supporting browsers, static fallback otherwise.
+- **3D depth reveal** — `.ubr-zoom` elements tilt in on scroll with
+  `perspective + rotateX` for a "3D scroll" effect (driven by the same observer,
+  so it works cross-browser).
+- **Interactive pointer tilt** — `.ubr-tile` cards tilt toward the cursor
+  (`rotateX/Y` up to 6°) on fine-pointer devices.
+- **Magnetic buttons** — primary buttons ease slightly toward the pointer.
+
+Motion follows the `ui-ux-pro-max` skill's rules: `transform`/`opacity` only,
+small offsets/angles, 1–2 animated elements per view, and all effects are
+disabled under `prefers-reduced-motion` and on touch/coarse-pointer devices.
+
+## Conversion features
+
+Built to drive orders, members, app installs, and SMS/email opt-ins:
+
+- **Full-screen mobile menu** (`.ubr-menu`) — Chipotle-style: big Oswald links
+  with orange arrows, an orange **Join Über Rewards** card
+  (Create Account / "Already a member? Sign in"), Order Now, social icons, and
+  a faint Ü stamp watermark. Opened by a custom hamburger; native horizontal
+  nav stays on desktop.
+- **Mobile sticky action bar** (`.ubr-mobilebar`) — fixed bottom bar with an
+  orange **Order Now** plus **Locations** and **Rewards**.
+- **Lead-capture popup** (Elementor Pro popup, id 49) — two-column: appetizing
+  food photo with a "20% OFF" burst on the left, dark-green form on the right
+  with **First name, Last name, Email, Mobile**, and a clear close button.
+  Triggered after 7s or on exit-intent and shown **once per 30 days via a
+  cookie** (`ubr_popup_seen`). On submit it emails the lead to the admin and
+  redirects to the Toast rewards signup. Directly serves the #1 goal (SMS/email
+  enrollment). **Backend routing (ESP/Toast) pending client decision.**
+- **Order Now** buttons use the vibrant **Uberrito Orange** (`#EC5A2A`)
+  site-wide so the primary conversion action always pops; secondary actions
+  stay forest-green/outline.
+
+## Footer
+
+Four groups (brand, Explore, Support, Order). On mobile it collapses to a
+**two-column grid** (brand spans full width) with Sitemap and Privacy Policy
+added under Support. Social icons use each network's brand color.
+
+## Performance (toward 100 PageSpeed)
+
+Applied on staging:
+
+- **LiteSpeed Cache**: full page cache, CSS/JS minify + combine, deferred JS,
+  critical/used-CSS (UCSS) with the reveal classes safelisted, font-display
+  swap, emoji removal, DNS prefetch.
+- **Images**: WebP generated for all 93 media files (~8.2 MB saved, ~53%
+  smaller hero), lazy-load enabled with the hero LCP image excluded, oversized
+  full images dropped to `large`.
+- **Object cache**: Redis (already provisioned on the host).
+- **Lean DOM**: ~760 nodes on the homepage.
+
+The scroll animations add only a few KB of inline JS and GPU-cheap
+transforms, so they do not meaningfully affect the score.
+
+**On the PageSpeed number:** a *certified* score could not be generated from
+the build sandbox — the shared anonymous PageSpeed Insights API quota was
+exhausted (HTTP 429), and the sandbox egress proxy returns an interstitial to
+headless Chrome, so a local Lighthouse run against staging isn't
+representative either. The certified number must be read from
+https://pagespeed.web.dev/ against the real domain (one click), or via the PSI
+API with a project API key. All the standard 90-100-range levers are in place
+(full-page cache, minified/deferred CSS+JS, UCSS, WebP, lazy-load, Redis
+object cache, lean ~760-node DOM), but we should not claim "100" until it's
+measured on the live domain.
+
+## How it was built
+
+Everything was authored programmatically through the **Novamira MCP server**
+(see DEVELOPMENT.md) by writing Elementor's `_elementor_data` JSON directly —
+containers, widgets, global kit settings, and Theme Builder header/footer with
+`include/general` display conditions. Brand and food imagery was sideloaded
+from the live uberrito.com media library and the shared Google Drive brand
+folder into the staging media library.
+
+## Open items to confirm before launch
+
+- **Locations**: exact open locations + addresses/hours (cards currently show
+  Champions + Atascocita, marked "confirm").
+- **App**: Android/Play Store link (only iOS confirmed) and final label.
+- **Catering price anchor**: `$12/person` is a placeholder.
+- **License keys**: enter Elementor Pro + Rank Math Pro license keys in
+  wp-admin to enable updates and pro template libraries.
+
+
+## Creative hero (v2)
+
+The hero was redesigned to break away from the old-site look:
+- **Kinetic headline** — "A Whole New Way to <rotating word>" cycling
+  Burrito → Bowl → Taco → Nacho → Quesadilla (orange, JS rotator).
+- **Layered food stage** — the dish sits in a circular plate with floating
+  lime, pepper, and avocado cutouts and a slowly spinning Ü stamp watermark,
+  over a sage→cream gradient with soft brand blobs.
+- **Mobile-visible motion** — the float and spin animations are pure CSS
+  keyframes (not pointer-driven), so they play on phones too; the word
+  rotator runs everywhere. Disabled under `prefers-reduced-motion`.
+
+The mobile header hamburger is a dedicated inline-styled element (immune to
+the global button styling that previously mis-rendered it as an orange pill).
+
+
+## Redesign to client mockup (v3)
+
+The homepage was rebuilt to match the client's full design mockup:
+- **Hero** — "FRESH. BOLD. MADE DAILY." (MADE DAILY in bright green) + subtitle,
+  Order Now / View Menu, trust row (4.8★ Google · Fresh Daily · Texas Locations),
+  food photo right.
+- **What Are You In The Mood For** — 6 circular category photos (Burritos, Bowls,
+  Tacos, Salads, Kids, Sides & Drinks).
+- **Summer LTO**, **Our Best Sellers** (4 product cards with price + calories),
+  **Build Your Perfect Meal** (dark-green 5-step: Base→Protein→Toppings→Sauce→Checkout),
+  **Catering Made Easy**, **Eat More. Earn More.**, **Find Your Nearest**,
+  **lifestyle 3-photo strip** (real store-interior shots).
+- **Header**: Menu · Catering · Rewards · Locations · About + Sign In + Order Now.
+- **Footer**: dark green, Menu/Company/Support/Get The App columns with App Store
+  + Google Play badges.
+- **Primary buttons** switched to the mockup's dark green (bright-green hover);
+  brighter green (#5E9E2E) used for accent words.
+
+**Real photography** (11 shots) was pulled from the client Google Drive
+(Food/Store/Instagram folders) — sideloaded to the media library — replacing the
+old foil-burrito and cut-out PNGs.
+
+### Pending on this redesign
+- Best-seller **prices/calories** are from the mockup — confirm real values.
+- **Kids** category + one best-seller use placeholder photos; swap when dedicated
+  shots are available.
+- **Find Your Nearest** uses location buttons; a live map/zip finder can be added.
+- Hero uses a real lifestyle shot; the exact mockup "spilling burrito" render would
+  need to be supplied.
+- **Toast API** lead capture: needs Toast partner API credentials (interim =
+  email to staff + redirect to Toast rewards signup).
