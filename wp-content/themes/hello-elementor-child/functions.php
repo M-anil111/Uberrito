@@ -99,3 +99,56 @@ function uberrito_enqueue_animation_assets() {
 
 }
 add_action( 'wp_enqueue_scripts', 'uberrito_enqueue_animation_assets' );
+
+/**
+ * Homepage redesign assets. Kept separate from the legacy Elementor styles so
+ * the new experience can be reviewed and rolled back independently.
+ */
+function uberrito_enqueue_home_redesign_assets() {
+	if ( ! is_page( 'uberrito-home' ) ) {
+		return;
+	}
+
+	$dir = get_stylesheet_directory();
+	$uri = get_stylesheet_directory_uri();
+	$css = $dir . '/assets/css/home-redesign.css';
+	$js  = $dir . '/assets/js/home-redesign.js';
+
+	wp_enqueue_style(
+		'uberrito-home-redesign',
+		$uri . '/assets/css/home-redesign.css',
+		array( 'child-style' ),
+		filemtime( $css )
+	);
+
+	wp_enqueue_script(
+		'uberrito-home-redesign',
+		$uri . '/assets/js/home-redesign.js',
+		array( 'custom-js' ),
+		filemtime( $js ),
+		true
+	);
+
+	wp_localize_script(
+		'uberrito-home-redesign',
+		'UberritoHome',
+		array(
+			'rewardsUrl' => home_url( '/rewards/' ),
+			'orderUrl'   => 'https://uberrito.toast.site/',
+			'assetsUrl'  => wp_get_upload_dir()['baseurl'] . '/2026/07/',
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_enqueue_home_redesign_assets', 30 );
+
+/**
+ * Give the redesign a dedicated body hook without changing Elementor data.
+ */
+function uberrito_home_redesign_body_class( $classes ) {
+	if ( is_page( 'uberrito-home' ) ) {
+		$classes[] = 'ub-home-redesign';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'uberrito_home_redesign_body_class' );
