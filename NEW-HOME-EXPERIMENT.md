@@ -16,10 +16,14 @@ The interaction rhythm is inspired by the pacing of CRAV's site, while the layou
 
 ## WordPress setup
 
-1. Deploy the child-theme files from this branch.
-2. Create a WordPress page titled `New Home` with the slug `new-home`.
-3. Leave the page content empty; WordPress will automatically use `page-new-home.php`.
+The preferred staging deployment is the isolated `Uberrito New Home Experience` plugin under `wp-content/plugins/uberrito-new-home/`. It prevents the experiment from depending on an undeployed child-theme template and leaves the existing homepage untouched.
+
+1. Install and activate the bundled plugin.
+2. Create or publish a WordPress page titled `New Home` with the slug `new-home`.
+3. Leave the page content empty; the plugin supplies the full page template.
 4. Review the page at `/new-home/` before changing the site homepage setting.
+
+The loader includes a CSS safety timeout and does not lock document scrolling. The navigation uses a continuously moving lime, cream, and orange perimeter glow. Promotional text colors are explicitly protected from global theme overrides.
 
 ## Content and asset notes
 
