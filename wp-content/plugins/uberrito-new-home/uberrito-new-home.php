@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Uberrito
  */
 
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function uberrito_new_home_plugin_template( $template ) {
 	if ( is_page( 'new-home' ) ) {
-		return plugin_dir_path( __FILE__ ) . 'templates/page-new-home.php';
+		return plugin_dir_path( __FILE__ ) . 'page-new-home.php';
 	}
 
 	return $template;
@@ -37,16 +37,16 @@ function uberrito_new_home_plugin_assets() {
 
 	wp_enqueue_style(
 		'uberrito-new-home-live',
-		$base_url . 'assets/new-home.css',
+		$base_url . 'new-home.css',
 		array(),
-		filemtime( $base_path . 'assets/new-home.css' )
+		filemtime( $base_path . 'new-home.css' )
 	);
 
 	wp_enqueue_script(
 		'uberrito-new-home-live',
-		$base_url . 'assets/new-home.js',
+		$base_url . 'new-home.js',
 		array(),
-		filemtime( $base_path . 'assets/new-home.js' ),
+		filemtime( $base_path . 'new-home.js' ),
 		true
 	);
 
@@ -71,4 +71,3 @@ function uberrito_new_home_plugin_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'uberrito_new_home_plugin_body_class' );
-
