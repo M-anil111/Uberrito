@@ -1,0 +1,1 @@
+../__wp__/index.php

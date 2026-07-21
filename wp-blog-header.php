@@ -1,0 +1,1 @@
+../__wp__/wp-blog-header.php
