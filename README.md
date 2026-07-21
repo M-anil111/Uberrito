@@ -1,2 +1,0 @@
-# Uberrito
-Uberrito WordPress Website

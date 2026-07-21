@@ -40,12 +40,62 @@ function ubr_effects_enqueue() {
  */
 function hello_child_enqueue_styles() {
 
+    // Parent Theme
+    wp_enqueue_style(
+        'hello-elementor',
+        get_template_directory_uri() . '/style.css'
+    );
+
+    // Child Theme CSS
     wp_enqueue_style(
         'hello-child-style',
         get_stylesheet_directory_uri() . '/assets/css/style.css',
-        array(),
+        array( 'hello-elementor' ),
         filemtime( get_stylesheet_directory() . '/assets/css/style.css' )
     );
 
 }
-add_action( 'wp_enqueue_scripts', 'hello_child_enqueue_styles', 20 );
+add_action( 'wp_enqueue_scripts', 'hello_child_enqueue_styles', PHP_INT_MAX );
+
+/**
+ * Swiper + GSAP Assets
+ */
+function uberrito_enqueue_animation_assets() {
+
+    // Swiper CSS
+    wp_enqueue_style(
+        'swiper-css',
+        get_stylesheet_directory_uri() . '/assets/libs/swiper/css/swiper-bundle.min.css',
+        array(),
+        '11.0.0'
+    );
+
+    // Swiper JS
+    wp_enqueue_script(
+        'swiper-js',
+        get_stylesheet_directory_uri() . '/assets/libs/swiper/js/swiper-bundle.min.js',
+        array(),
+        '11.0.0',
+        true
+    );
+
+    // GSAP
+    wp_enqueue_script(
+        'gsap-js',
+        get_stylesheet_directory_uri() . '/assets/libs/gsap/gsap.min.js',
+        array(),
+        '3.13.0',
+        true
+    );
+
+    // Custom JS
+    wp_enqueue_script(
+        'custom-js',
+        get_stylesheet_directory_uri() . '/assets/js/custom.js',
+        array('swiper-js', 'gsap-js'),
+        filemtime(get_stylesheet_directory() . '/assets/js/custom.js'),
+        true
+    );
+
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_enqueue_animation_assets' );

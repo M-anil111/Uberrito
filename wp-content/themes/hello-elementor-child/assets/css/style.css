@@ -234,13 +234,16 @@
     -webkit-backdrop-filter: blur(18px);
 
     /* Permanent Border */
-    border: 1px solid rgba(255,215,0,.18);
+     border: 1px solid rgba(94, 158, 46, .45);
 
     box-shadow:
         inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 /* ONLY Border Light */
+.ub-header.is-sticky{
+    background-color: transparent !important;
+}
 .header-main::before{
     content: "";
     position: absolute;
@@ -251,16 +254,16 @@
     background: linear-gradient(
         90deg,
         transparent 0%,
-        transparent 40%,
-        rgba(255,255,255,.15) 47%,
-        #ffe55c 50%,
-        rgba(255,255,255,.15) 53%,
-        transparent 60%,
+        transparent 42%,
+        rgba(94,158,46,.15) 47%,
+        #5E9E2E 50%,
+        rgba(94,158,46,.15) 53%,
+        transparent 58%,
         transparent 100%
     );
 
     background-size: 250% 100%;
-    animation: borderLight 10s linear infinite;
+    animation: borderLight 20s linear infinite;
 
     /* Show ONLY the border */
     -webkit-mask:
@@ -279,4 +282,741 @@
     to{
         background-position: 250% 0;
     }
+}
+
+/* ============================================================
+   UBERRITO — Cinematic Hero Banner
+   Scoped under .ub- to avoid collisions with theme/Elementor CSS
+   ============================================================ */
+
+.ub-hero {
+  --ub-primary: #1F4D2C;
+  --ub-secondary: #5E9E2E;
+  --ub-dark: #4A4A47;
+  --ub-cream: #F5F3EC;
+  --ub-black: #0B0F0C;
+
+  --ub-font-head: 'Oswald', 'Arial Narrow', sans-serif;
+  --ub-font-body: 'Poppins', -apple-system, sans-serif;
+
+  --ub-header-h: 84px; /* adjust to match the real sticky header height */
+
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--ub-black);
+  color: #fff;
+  font-family: var(--ub-font-body);
+  isolation: isolate;
+      /* margin-top: -110px; */
+}
+
+.ub-hero *,
+.ub-hero *::before,
+.ub-hero *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Swiper shell ---------- */
+.ub-hero__swiper,
+.ub-hero__swiper .swiper-wrapper,
+.ub-hero__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ub-hero__slide {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- Background layer ---------- */
+.ub-hero__bg {
+  position: absolute;
+  inset: -2%; /* small bleed so the GSAP zoom never reveals an edge */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  transform: scale(1);
+}
+
+/* .ub-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg,
+      rgba(11, 15, 12, 0.94) 0%,
+      rgba(11, 15, 12, 0.82) 26%,
+      rgba(11, 15, 12, 0.45) 52%,
+      rgba(11, 15, 12, 0.18) 68%,
+      rgba(11, 15, 12, 0.08) 100%),
+    linear-gradient(to top, rgba(11,15,12,0.55) 0%, rgba(11,15,12,0) 22%);
+  z-index: 1;
+} */
+
+/* .ub-hero__scrim--alt {
+  background:
+    linear-gradient(100deg,
+      rgba(11, 15, 12, 0.94) 0%,
+      rgba(11, 15, 12, 0.84) 30%,
+      rgba(11, 15, 12, 0.5) 55%,
+      rgba(11, 15, 12, 0.2) 72%,
+      rgba(11, 15, 12, 0.1) 100%),
+    linear-gradient(to top, rgba(11,15,12,0.55) 0%, rgba(11,15,12,0) 22%);
+} */
+
+/* Subtle film-grain / texture overlay for a premium, non-flat feel */
+.ub-hero__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+
+/* ---------- Content ---------- */
+.ub-hero__inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: calc(var(--ub-header-h) + 24px) 56px 64px;
+}
+
+.ub-hero__content {
+  max-width: 620px;
+}
+
+.ub-hero__eyebrow {
+    display: none;
+  /* display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ub-font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ub-secondary);
+  margin-bottom: 22px;
+  opacity: 0;   */
+}
+
+/* .ub-hero__eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--ub-secondary);
+  display: inline-block;
+} */
+
+.ub-hero__heading {
+  font-family: var(--ub-font-head) !important;
+  font-weight: 700 !important; 
+  text-transform: uppercase !important;
+  line-height: 0.98 !important;
+  letter-spacing: 0.01em !important;
+  font-size: clamp(2.6rem, 5.4vw, 5.2rem) !important;
+  margin: 0 0 26px !important;
+}
+
+.ub-hero__line {
+  display: block;
+  color: #fff;
+  overflow: hidden;
+}
+
+.ub-hero__line--accent {
+  color: var(--ub-secondary);
+}
+
+/* Per-letter spans injected by JS for the stagger animation */
+.ub-hero__char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.ub-hero__desc {
+  font-family: var(--ub-font-body);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 480px;
+  margin: 0 0 36px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.ub-hero__cta-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 20px;
+  opacity: 0;
+}
+
+.ub-btn-primary{
+    background-color: #5E9E2E;
+    font-family: "Poppins", Sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #FFF;
+    border-radius: 50px 50px 50px 50px;
+    padding:10px 28px 10px 28px;
+    transition: all 0.3s ease-in-out;
+}
+.ub-btn-primary:hover{
+    color: #fff;
+    background-color: #1F4D2C;
+}
+
+/* .ub-btn {
+  --ub-btn-scale: 1;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ub-font-body);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 16px 30px;
+  border-radius: 50px;
+  border: 1px solid transparent;
+  transform: translateY(0) scale(var(--ub-btn-scale));
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease,
+              color 0.25s ease;
+  will-change: transform, box-shadow;
+  white-space: nowrap;
+} */
+
+/* .ub-btn--primary {
+  background: var(--ub-secondary);
+  color: #10230f;
+  box-shadow: 0 8px 24px rgba(94, 158, 46, 0.25);
+}
+
+.ub-btn--primary:hover,
+.ub-btn--primary:focus-visible {
+  transform: translateY(-3px) scale(var(--ub-btn-scale));
+  box-shadow: 0 14px 32px rgba(94, 158, 46, 0.45), 0 0 0 6px rgba(94, 158, 46, 0.12);
+  background: #6cb534;
+} */
+
+.ub-btn--ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+     border: 1px solid #5E9E2E !important;
+  backdrop-filter: blur(6px);
+  padding: 10px 28px 10px 28px;
+  border-radius: 50px 50px 50px 50px;
+   transition: all 0.3s ease-in-out;
+}
+
+.ub-btn--ghost:hover,
+.ub-btn--ghost:focus-visible {
+  transform: translateY(-3px) scale(var(--ub-btn-scale));
+  border-color: #fff;
+ background-color: #5E9E2E;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.ub-btn--text {
+  padding: 16px 6px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(255, 255, 255, 0.4)   !important;
+}
+
+.ub-btn--text:hover,
+.ub-btn--text:focus-visible {
+  color: #fff;
+  text-decoration-color: var(--ub-secondary) !important;
+  transform: translateY(-2px) !important;
+}
+
+.ub-btn:focus-visible {
+  outline: 2px solid var(--ub-secondary);
+  outline-offset: 3px;
+}
+
+.ub-hero__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.72);
+  opacity: 0;
+  font-weight: 800;
+}
+
+.ub-hero__meta svg { flex-shrink: 0; color: var(--ub-secondary); }
+
+/* ---------- Decorative seal badge ---------- */
+.ub-hero__badge {
+  position: absolute;
+  top: calc(var(--ub-header-h) + 28px);
+  right: 56px;
+  z-index: 3;
+  width:160px;
+  height:160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.ub-hero__badge-ring {
+  position: absolute;
+  inset: 0;
+  animation: ub-spin 22s linear infinite;
+}
+
+.ub-hero__badge-text {
+  font-family: var(--ub-font-body);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  fill: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+}
+
+.ub-hero__badge-icon {
+  position: relative;
+  z-index: 1;
+  color: var(--ub-secondary);
+}
+
+@keyframes ub-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Pagination & nav ---------- */
+.ub-hero__pagination.swiper-pagination {
+  position: absolute;
+  left: 56px;
+  bottom: 40px;
+  z-index: 4;
+  width: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.ub-hero .swiper-pagination-bullet {
+  width: 34px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.32);
+  opacity: 1;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.ub-hero .swiper-pagination-bullet-active {
+  background: var(--ub-secondary);
+}
+
+.ub-hero__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) !important;
+    z-index: 4;
+    width: 48px;
+    height: 48px;
+    border-radius: 50% !important;
+    border: 1px solid rgb(255 255 255 / .28);
+    background: rgb(11 15 12 / .35) !important;
+    color: #fff!important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer!important;
+    backdrop-filter: blur(6px);
+    transition: transform 0.25s cubic-bezier(.22,1,.36,1),background-color 0.25s ease,border-color 0.25s ease;
+  padding: 14px !important;
+}
+
+.ub-hero__nav:hover,
+.ub-hero__nav:focus-visible {
+  transform: translateY(-50%) scale(1.08);
+  background: rgba(94, 158, 46, 0.4);
+  border-color: var(--ub-secondary);
+}
+
+.ub-hero__nav--prev { left: 24px; }
+.ub-hero__nav--next { right: 24px; }
+
+/* ---------- Scroll cue ---------- */
+.ub-hero__scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  right: 56px;
+  z-index: 4;
+  width: 26px;
+  height: 42px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+}
+
+.ub-hero__scroll-cue span {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--ub-secondary);
+  transform: translateX(-50%);
+  animation: ub-scroll-cue 1.8s ease-in-out infinite;
+}
+
+@keyframes ub-scroll-cue {
+  0%   { transform: translate(-50%, 0);   opacity: 1; }
+  60%  { transform: translate(-50%, 14px); opacity: 0.3; }
+  100% { transform: translate(-50%, 0);   opacity: 1; }
+}
+
+/* ---------- Header integration ----------
+   The site's sticky header should be transparent over the hero and solid
+   after scroll. Toggle this class (see hero.js CONFIG) from JS, or add
+   the equivalent rule to the theme's own header stylesheet. */
+body:not(.ub-scrolled) .site-header,
+body:not(.ub-scrolled) header.elementor-location-header {
+  background: transparent !important;
+  box-shadow: none !important;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+body.ub-scrolled .site-header,
+body.ub-scrolled header.elementor-location-header .header-main {
+  background: #1F4D2C !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ub-hero__bg { transition: none !important; animation: none !important; }
+  .ub-hero__badge-ring { animation: none !important; }
+  .ub-hero__scroll-cue span { animation: none !important; }
+  .ub-btn { transition: none !important; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Laptop */
+@media (max-width: 1280px) {
+  .ub-hero__inner { padding-left: 40px; padding-right: 40px; }
+  .ub-hero__badge { right: 40px; }
+  .ub-hero__pagination.swiper-pagination { left: 40px; }
+  .ub-hero__scroll-cue { right: 40px; }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .ub-hero__content { max-width: 78%; }
+  .ub-hero__desc { max-width: 100%; }
+  .ub-hero__badge { width: 88px; height: 88px; top: calc(var(--ub-header-h) + 18px); }
+  .ub-hero__nav { width: 42px; height: 42px; }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .ub-hero { --ub-header-h: 64px; }
+
+  .ub-hero__scrim,
+  .ub-hero__scrim--alt {
+    background:
+      linear-gradient(180deg, rgba(11,15,12,0.55) 0%, rgba(11,15,12,0.86) 55%, rgba(11,15,12,0.96) 100%),
+      linear-gradient(100deg, rgba(11,15,12,0.7) 0%, rgba(11,15,12,0.4) 100%);
+  }
+
+  .ub-hero__inner {
+    padding: calc(var(--ub-header-h) + 20px) 22px 40px;
+    display: flex;
+    align-items: flex-end;
+    min-height: 100%;
+  }
+
+  .ub-hero__content { max-width: 100%; }
+
+  .ub-hero__heading { font-size: clamp(2.1rem, 9vw, 2.9rem) !important; }
+
+  .ub-hero__cta-group { flex-direction: column; align-items: stretch; gap: 12px; }
+  .ub-btn { justify-content: center; width: 100%; }
+  .ub-btn--text { width: auto; align-self: center; }
+
+  .ub-hero__badge {
+    position: static;
+    width: auto;
+    height: auto;
+    margin-bottom: 18px;
+    display: inline-flex;
+  }
+  .ub-hero__badge-ring { display: none; }
+  .ub-hero__badge-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+
+  .ub-hero__pagination.swiper-pagination { left: 22px; bottom: 22px; }
+  .ub-hero__nav { display: none; } /* touch swipe handles navigation on mobile */
+  .ub-hero__scroll-cue { display: none; }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .ub-hero__heading { font-size: clamp(1.7rem, 6vw, 2.2rem) !important; }
+  .ub-hero__desc { display: none; } /* protect short landscape viewport from CLS/overlap */
+}
+
+
+.ub-rewards-slider {
+  --ub-green: #3f6519;
+  --ub-light-green: #8cb42f;
+  --ub-text: #111111;
+  width: 100%;
+  overflow: hidden;
+ 
+}
+
+.ub-rewards-swiper {
+  width: 100%;
+}
+
+.ub-rewards-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.ub-rewards-swiper .swiper-slide {
+  height: auto;
+}
+
+.ub-rewards-slide {
+  width: 100%;
+ 
+  margin: 0 auto;
+   
+  display: grid;
+  grid-template-columns: 165px 1px minmax(320px, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  box-sizing: border-box;
+}
+
+.ub-rewards-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ub-rewards-image img {
+  display: block;
+  width: 100%;
+max-width: 145px;
+    height: 60px;
+  object-fit: contain;
+}
+
+.ub-rewards-divider {
+  width: 1px;
+  height: 66px;
+  background: var(--ub-green);
+  opacity: 0.65;
+}
+
+.ub-rewards-content {
+  min-width: 0;
+}
+
+.ub-rewards-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ub-green);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ub-rewards-content h3 {
+  margin: 0;
+  color: var(--ub-text);
+  font-size: clamp(18px, 1.55vw, 20px);
+  font-weight: 700;
+  line-height: 1.2;
+  font-family: "Oswald",sans-serif;
+}
+
+.ub-rewards-content h3 strong {
+  color: var(--ub-light-green);
+  font-weight: 800;
+}
+
+.ub-rewards-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ub-green);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.ub-rewards-button span {
+  display: inline-block;
+  font-size: 25px;
+  font-weight: 400;
+  transition: transform 0.25s ease;
+  padding-right: 15px;
+}
+
+.ub-rewards-button:hover {
+  color: #28470f;
+}
+
+.ub-rewards-button:hover span {
+  transform: translateX(5px);
+}
+
+@media (max-width: 1024px) {
+  .ub-rewards-slide {
+    grid-template-columns: 140px 1px minmax(260px, 1fr) auto;
+    gap: 18px;
+    padding-inline: 20px;
+  }
+
+  .ub-rewards-image img {
+    max-width: 120px;
+    height: 60px;
+  }
+
+  .ub-rewards-content h3 {
+    font-size: 18px;
+  }
+
+  .ub-rewards-button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ub-rewards-slide {
+    min-height: 130px;
+    padding: 16px 18px;
+    grid-template-columns: 105px minmax(0, 1fr);
+    grid-template-areas:
+      "image content"
+      "image button";
+    gap: 8px 16px;
+  }
+
+  .ub-rewards-image {
+    grid-area: image;
+  }
+
+  .ub-rewards-image img {
+    max-width: 105px;
+    height: 82px;
+  }
+
+  .ub-rewards-divider {
+    display: none;
+  }
+
+  .ub-rewards-content {
+    grid-area: content;
+    align-self: end;
+  }
+
+  .ub-rewards-eyebrow {
+    margin-bottom: 5px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .ub-rewards-content h3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .ub-rewards-button {
+    grid-area: button;
+    align-self: start;
+    width: fit-content;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .ub-rewards-button span {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ub-rewards-slide {
+    min-height: 122px;
+    padding: 14px;
+    grid-template-columns: 85px minmax(0, 1fr);
+    gap: 6px 12px;
+  }
+
+  .ub-rewards-image img {
+    max-width: 85px;
+    height: 68px;
+  }
+
+  .ub-rewards-eyebrow {
+    font-size: 9px;
+  }
+
+  .ub-rewards-content h3 {
+    font-size: 14px;
+  }
+
+  .ub-rewards-button {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ub-rewards-button,
+  .ub-rewards-button span {
+    transition: none;
+  }
 }
