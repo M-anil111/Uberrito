@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="//staging.uberrito.com/main-sitemap.xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap>
+		<loc>https://staging.uberrito.com/post-sitemap.xml</loc>
+		<lastmod>2026-07-15T23:10:17+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>https://staging.uberrito.com/page-sitemap.xml</loc>
+		<lastmod>2026-07-21T19:00:07+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>https://staging.uberrito.com/category-sitemap.xml</loc>
+		<lastmod>2026-07-15T23:10:17+00:00</lastmod>
+	</sitemap>
+</sitemapindex>
