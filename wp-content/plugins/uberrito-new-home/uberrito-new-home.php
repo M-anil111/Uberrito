@@ -87,14 +87,14 @@ function uberrito_elementor_home_assets() {
 	wp_enqueue_style( 'uberrito-elementor-reference-v132', $base_url . 'new-home-v132.css', array( 'elementor-frontend' ), '1.3.5' );
 	wp_enqueue_style(
 		'uberrito-elementor-home-v153',
-		$base_url . 'assets/elementor-home-v150.css?release=153',
+		$base_url . 'assets/elementor-home-v153.css',
 		array( 'uberrito-elementor-reference-v132' ),
 		'1.5.3'
 	);
 
 	wp_enqueue_script(
 		'uberrito-elementor-home-v153',
-		$base_url . 'assets/elementor-home-v150.js?release=153',
+		$base_url . 'assets/elementor-home-v153.js',
 		array(),
 		'1.5.3',
 		true
@@ -219,6 +219,8 @@ function uberrito_new_home_litespeed_excludes( $excludes ) {
 	$excludes[] = 'new-home-v132.js';
 	$excludes[] = 'elementor-home-v150.css';
 	$excludes[] = 'elementor-home-v150.js';
+	$excludes[] = 'elementor-home-v153.css';
+	$excludes[] = 'elementor-home-v153.js';
 	return array_unique( $excludes );
 }
 add_filter( 'litespeed_optimize_css_excludes', 'uberrito_new_home_litespeed_excludes' );
