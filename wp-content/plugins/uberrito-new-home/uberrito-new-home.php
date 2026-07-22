@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Uberrito
  */
 
@@ -71,3 +71,19 @@ function uberrito_new_home_plugin_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'uberrito_new_home_plugin_body_class' );
+
+/**
+ * The staging review page must always show the newest design build.
+ */
+function uberrito_new_home_disable_page_cache() {
+	if ( ! is_page( 'new-home' ) ) {
+		return;
+	}
+
+	if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+		define( 'DONOTCACHEPAGE', true );
+	}
+
+	nocache_headers();
+}
+add_action( 'template_redirect', 'uberrito_new_home_disable_page_cache', 1 );
