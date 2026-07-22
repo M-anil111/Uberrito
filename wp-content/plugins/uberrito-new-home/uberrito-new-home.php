@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: Uberrito
  */
 
@@ -84,17 +84,17 @@ function uberrito_elementor_home_assets() {
 	wp_dequeue_script( 'uberrito-home-redesign' );
 
 	wp_enqueue_style(
-		'uberrito-elementor-home',
-		$base_url . 'assets/elementor-home.css',
+		'uberrito-elementor-home-v140',
+		$base_url . 'assets/elementor-home-v140.css',
 		array( 'elementor-frontend' ),
-		filemtime( $base_path . 'assets/elementor-home.css' )
+		filemtime( $base_path . 'assets/elementor-home-v140.css' )
 	);
 
 	wp_enqueue_script(
-		'uberrito-elementor-home',
-		$base_url . 'assets/elementor-home.js',
+		'uberrito-elementor-home-v140',
+		$base_url . 'assets/elementor-home-v140.js',
 		array(),
-		filemtime( $base_path . 'assets/elementor-home.js' ),
+		filemtime( $base_path . 'assets/elementor-home-v140.js' ),
 		true
 	);
 }
