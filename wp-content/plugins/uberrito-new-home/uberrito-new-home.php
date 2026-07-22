@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: Uberrito
  */
 
@@ -38,22 +38,22 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v121',
-		$base_url . 'new-home.css?build=121',
+		'uberrito-new-home-live-v122',
+		$base_url . 'new-home.css?build=122',
 		array(),
 		null
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v121',
-		$base_url . 'new-home.js?build=121',
+		'uberrito-new-home-live-v122',
+		$base_url . 'new-home.js?build=122',
 		array(),
 		null,
 		true
 	);
 
 	wp_localize_script(
-		'uberrito-new-home-live-v121',
+		'uberrito-new-home-live-v122',
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
@@ -86,6 +86,20 @@ function uberrito_new_home_disable_page_cache() {
 		define( 'DONOTCACHEPAGE', true );
 	}
 
+	if ( ! defined( 'LITESPEED_NO_OPTM' ) ) {
+		define( 'LITESPEED_NO_OPTM', true );
+	}
+
 	nocache_headers();
 }
 add_action( 'template_redirect', 'uberrito_new_home_disable_page_cache', 1 );
+
+/** Keep the isolated redesign assets out of LiteSpeed's generated bundles. */
+function uberrito_new_home_litespeed_excludes( $excludes ) {
+	$excludes[] = 'uberrito-new-home-live';
+	$excludes[] = 'new-home.css';
+	$excludes[] = 'new-home.js';
+	return array_unique( $excludes );
+}
+add_filter( 'litespeed_optimize_css_excludes', 'uberrito_new_home_litespeed_excludes' );
+add_filter( 'litespeed_optimize_js_excludes', 'uberrito_new_home_litespeed_excludes' );
