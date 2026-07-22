@@ -38,7 +38,7 @@ function uberrito_el_container( $name, $class, $elements = array(), $settings = 
 
 function uberrito_el_widget( $name, $widget, $settings, $class = '' ) {
 	if ( $class ) {
-		$settings['css_classes'] = $class;
+		$settings['_css_classes'] = $class;
 	}
 	$element               = uberrito_el_element( $name, 'widget', $settings );
 	$element['widgetType'] = $widget;
@@ -304,6 +304,11 @@ function uberrito_run_elementor_migration() {
 	$post_id = UBERRITO_ELEMENTOR_HOME_ID;
 	$old     = get_post_meta( $post_id, '_elementor_data', true );
 	$key     = '_uberrito_elementor_backup_' . gmdate( 'Ymd_His' );
+	$original = get_option( 'uberrito_elementor_original_backup', '' );
+	if ( ! $original ) {
+		$original = get_option( 'uberrito_elementor_last_backup', $key );
+		update_option( 'uberrito_elementor_original_backup', $original, false );
+	}
 	update_post_meta( $post_id, $key, $old );
 	update_option( 'uberrito_elementor_last_backup', $key, false );
 
@@ -324,7 +329,7 @@ function uberrito_restore_elementor_home() {
 		wp_die( 'Insufficient permissions.' );
 	}
 	check_admin_referer( 'uberrito_elementor_restore' );
-	$key = get_option( 'uberrito_elementor_last_backup', '' );
+	$key = get_option( 'uberrito_elementor_original_backup', get_option( 'uberrito_elementor_last_backup', '' ) );
 	if ( ! $key || ! metadata_exists( 'post', UBERRITO_ELEMENTOR_HOME_ID, $key ) ) {
 		wp_die( 'No Elementor backup is available.' );
 	}
