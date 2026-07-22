@@ -53,6 +53,8 @@
 .ub-elementor-home-page .nv-hero__copy{display:flex!important;flex-direction:column;align-items:flex-start}
 .ub-elementor-home-page .nv-hero__copy h1 span,.ub-elementor-home-page .nv-hero__copy h2 span{display:block}
 .ub-elementor-home-page .nv-hero__copy :where(h1,h2) span:not(.nv-accent),.ub-elementor-home-page .nv-hero__lede,.ub-elementor-home-page .nv-hero__lede p,.ub-elementor-home-page .nv-hero__copy .nv-eyebrow,.ub-elementor-home-page .nv-hero__location{color:#fff!important}
+body.ub-elementor-home-page .nv-hero .nv-hero__copy .elementor-heading-title>span:not(.nv-accent){color:#fff!important;-webkit-text-fill-color:#fff!important}
+body.ub-elementor-home-page .nv-hero .nv-hero__copy :where(.nv-hero__lede,.nv-hero__lede p,.nv-eyebrow,.nv-hero__location){color:#fff!important;-webkit-text-fill-color:#fff!important}
 .ub-elementor-home-page .nv-hero__actions{display:flex!important;flex-direction:row;gap:14px;align-items:center}
 .ub-elementor-home-page .nv-pill--lime .elementor-button{background:var(--nv-cilantro);color:var(--nv-black)}
 .ub-elementor-home-page .nv-pill--ghost .elementor-button{border:1px solid rgba(255,255,255,.55);color:#fff}
@@ -155,6 +157,7 @@
 	.ub-elementor-home-page .nv-nav__links.is-mobile-open{display:flex!important;position:absolute;left:0;right:0;top:66px;flex-direction:column;align-items:stretch;gap:0;padding:14px 18px;border:2px solid var(--nv-cilantro);border-radius:0 0 22px 22px;background:var(--nv-black);box-shadow:0 18px 35px rgba(0,0,0,.3)}
 	.ub-elementor-home-page .nv-nav__links.is-mobile-open .nv-nav__link{width:100%;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.15)}
 	.ub-elementor-home-page .nv-nav__order .elementor-button{padding:12px 14px;font-size:10px}.ub-elementor-home-page .nv-menu-toggle .elementor-button{width:42px;height:42px}
+	.ub-elementor-home-page .nv-nav__order .elementor-button-text{font-size:0!important}.ub-elementor-home-page .nv-nav__order .elementor-button:before{content:'ORDER NOW →';display:block!important;color:var(--nv-black);font:900 9px/1 var(--nv-font-body);white-space:nowrap}
 	.ub-elementor-home-page .nv-menu-toggle:before{display:none!important}.ub-elementor-home-page .nv-menu-toggle .elementor-button:after{content:'🌮';font-size:20px}
 	.ub-elementor-home-page .nv-hero__layout{display:flex!important;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding-bottom:88px}
 	.ub-elementor-home-page .nv-hero__copy{width:100%}.ub-elementor-home-page .nv-hero__copy h1,.ub-elementor-home-page .nv-hero__copy h2{font-size:clamp(49px,16vw,68px);line-height:.84}
