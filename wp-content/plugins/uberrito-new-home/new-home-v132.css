@@ -98,5 +98,6 @@ body.ub-new-home-page>.elementor-location-header,body.ub-new-home-page>.elemento
   .nv-reward-ribbon h2{font-size:3.15rem}.nv-reward-ribbon strong{font-size:.9rem}.nv-reward-ribbon:before{right:2%;top:12%;font-size:4rem}
   .nv-bottom-nav{padding:58px 0}.nv-bottom-nav nav a{grid-template-columns:26px 1fr auto;padding:9px 0;font-size:clamp(2rem,9.8vw,2.75rem);line-height:1.02}.nv-bottom-nav nav a span{font-size:.58rem}.nv-bottom-nav nav a b{font-size:.42em}
   .nv-footer{min-height:520px}.nv-footer__word{min-height:360px;padding:170px 5vw 35px}.nv-footer__word img{width:92vw}.nv-ninja-stage{display:block}.nv-ninja-item{display:block;width:24vw}
+  .nv-flight{padding-bottom:12px}.nv-catering__copy{padding-top:46px}.nv-merch h2{font-size:clamp(3rem,13.2vw,3.75rem)}
 }
 @media(prefers-reduced-motion:reduce){.nv-pointer-trail,.nv-ninja-stage{display:none!important}.nv-burrito-pal,.nv-clippy,.nv-footer__word img,.nv-proof-icon{animation:none!important}}

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Uberrito
  */
 
@@ -38,22 +38,22 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v131',
-		$base_url . 'new-home-v130.css',
+		'uberrito-new-home-live-v132',
+		$base_url . 'new-home-v132.css',
 		array(),
-		'1.3.1'
+		'1.3.2'
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v131',
-		$base_url . 'new-home-v130.js',
+		'uberrito-new-home-live-v132',
+		$base_url . 'new-home-v132.js',
 		array(),
-		'1.3.1',
+		'1.3.2',
 		true
 	);
 
 	wp_localize_script(
-		'uberrito-new-home-live-v131',
+		'uberrito-new-home-live-v132',
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
@@ -101,6 +101,8 @@ function uberrito_new_home_litespeed_excludes( $excludes ) {
 	$excludes[] = 'new-home.js';
 	$excludes[] = 'new-home-v130.css';
 	$excludes[] = 'new-home-v130.js';
+	$excludes[] = 'new-home-v132.css';
+	$excludes[] = 'new-home-v132.js';
 	return array_unique( $excludes );
 }
 add_filter( 'litespeed_optimize_css_excludes', 'uberrito_new_home_litespeed_excludes' );
