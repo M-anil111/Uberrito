@@ -100,6 +100,14 @@ function uberrito_elementor_home_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'uberrito_elementor_home_assets', 120 );
 
+function uberrito_elementor_home_body_class( $classes ) {
+	if ( is_page( 'uberrito-home' ) ) {
+		$classes[] = 'ub-elementor-home-page';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'uberrito_elementor_home_body_class', 30 );
+
 /**
  * The isolated template does not render Elementor or the child-theme shell.
  * Removing those unused assets avoids several render-blocking requests on mobile.
