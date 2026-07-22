@@ -2,11 +2,13 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.3.5
+ * Version: 1.4.0
  * Author: Uberrito
  */
 
 defined( 'ABSPATH' ) || exit;
+
+require_once plugin_dir_path( __FILE__ ) . 'includes/elementor-home-migration.php';
 
 /**
  * Use the bundled page template only for the New Home experiment.
@@ -64,6 +66,39 @@ function uberrito_new_home_plugin_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'uberrito_new_home_plugin_assets', 100 );
+
+/**
+ * The production-minded homepage is native Elementor content. These assets
+ * supply only the visual system and interactions that Elementor cannot express.
+ */
+function uberrito_elementor_home_assets() {
+	if ( ! is_page( 'uberrito-home' ) ) {
+		return;
+	}
+
+	$base_path = plugin_dir_path( __FILE__ );
+	$base_url  = plugin_dir_url( __FILE__ );
+
+	// Remove the retired template-level animation layer on this page only.
+	wp_dequeue_style( 'uberrito-home-redesign' );
+	wp_dequeue_script( 'uberrito-home-redesign' );
+
+	wp_enqueue_style(
+		'uberrito-elementor-home',
+		$base_url . 'assets/elementor-home.css',
+		array( 'elementor-frontend' ),
+		filemtime( $base_path . 'assets/elementor-home.css' )
+	);
+
+	wp_enqueue_script(
+		'uberrito-elementor-home',
+		$base_url . 'assets/elementor-home.js',
+		array(),
+		filemtime( $base_path . 'assets/elementor-home.js' ),
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_elementor_home_assets', 120 );
 
 /**
  * The isolated template does not render Elementor or the child-theme shell.
