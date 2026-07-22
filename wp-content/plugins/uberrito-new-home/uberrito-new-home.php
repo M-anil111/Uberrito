@@ -2,13 +2,14 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.4.1
+ * Version: 1.5.0
  * Author: Uberrito
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/elementor-home-migration.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/elementor-new-home-v142.php';
 
 /**
  * Use the bundled page template only for the New Home experiment.
@@ -83,19 +84,30 @@ function uberrito_elementor_home_assets() {
 	wp_dequeue_style( 'uberrito-home-redesign' );
 	wp_dequeue_script( 'uberrito-home-redesign' );
 
+	wp_enqueue_style( 'uberrito-elementor-reference-v132', $base_url . 'new-home-v132.css', array( 'elementor-frontend' ), '1.3.5' );
 	wp_enqueue_style(
-		'uberrito-elementor-home-v140',
-		$base_url . 'assets/elementor-home-v140.css',
-		array( 'elementor-frontend' ),
-		filemtime( $base_path . 'assets/elementor-home-v140.css' )
+		'uberrito-elementor-home-v150',
+		$base_url . 'assets/elementor-home-v150.css',
+		array( 'uberrito-elementor-reference-v132' ),
+		filemtime( $base_path . 'assets/elementor-home-v150.css' )
 	);
 
 	wp_enqueue_script(
-		'uberrito-elementor-home-v140',
-		$base_url . 'assets/elementor-home-v140.js',
+		'uberrito-elementor-home-v150',
+		$base_url . 'assets/elementor-home-v150.js',
 		array(),
-		filemtime( $base_path . 'assets/elementor-home-v140.js' ),
+		filemtime( $base_path . 'assets/elementor-home-v150.js' ),
 		true
+	);
+	wp_localize_script(
+		'uberrito-elementor-home-v150',
+		'UberritoNewHome',
+		array(
+			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
+			'orderUrl'     => 'https://uberrito.toast.site/',
+			'rewardsUrl'   => home_url( '/rewards/' ),
+			'locationsUrl' => home_url( '/locations/' ),
+		)
 	);
 }
 add_action( 'wp_enqueue_scripts', 'uberrito_elementor_home_assets', 120 );
@@ -103,6 +115,7 @@ add_action( 'wp_enqueue_scripts', 'uberrito_elementor_home_assets', 120 );
 function uberrito_elementor_home_body_class( $classes ) {
 	if ( is_page( 'uberrito-home' ) ) {
 		$classes[] = 'ub-elementor-home-page';
+		$classes[] = 'ub-new-home-page';
 	}
 	return $classes;
 }
@@ -179,7 +192,7 @@ add_filter( 'body_class', 'uberrito_new_home_plugin_body_class' );
  * The staging review page must always show the newest design build.
  */
 function uberrito_new_home_disable_page_cache() {
-	if ( ! is_page( 'new-home' ) ) {
+	if ( ! is_page( array( 'new-home', 'uberrito-home' ) ) ) {
 		return;
 	}
 
@@ -204,6 +217,8 @@ function uberrito_new_home_litespeed_excludes( $excludes ) {
 	$excludes[] = 'new-home-v130.js';
 	$excludes[] = 'new-home-v132.css';
 	$excludes[] = 'new-home-v132.js';
+	$excludes[] = 'elementor-home-v150.css';
+	$excludes[] = 'elementor-home-v150.js';
 	return array_unique( $excludes );
 }
 add_filter( 'litespeed_optimize_css_excludes', 'uberrito_new_home_litespeed_excludes' );

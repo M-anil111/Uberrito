@@ -312,7 +312,8 @@ function uberrito_run_elementor_migration() {
 	update_post_meta( $post_id, $key, $old );
 	update_option( 'uberrito_elementor_last_backup', $key, false );
 
-	update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( uberrito_build_elementor_home_data() ) ) );
+	$builder = function_exists( 'uberrito_build_elementor_home_v142_data' ) ? 'uberrito_build_elementor_home_v142_data' : 'uberrito_build_elementor_home_data';
+	update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( call_user_func( $builder ) ) ) );
 	update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
 	update_post_meta( $post_id, '_elementor_template_type', 'wp-page' );
 	update_post_meta( $post_id, '_wp_page_template', 'elementor_full_width' );
