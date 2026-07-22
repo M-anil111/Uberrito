@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.3.2
+ * Version: 1.3.3
  * Author: Uberrito
  */
 
@@ -41,14 +41,14 @@ function uberrito_new_home_plugin_assets() {
 		'uberrito-new-home-live-v132',
 		$base_url . 'new-home-v132.css',
 		array(),
-		'1.3.2'
+		'1.3.3'
 	);
 
 	wp_enqueue_script(
 		'uberrito-new-home-live-v132',
 		$base_url . 'new-home-v132.js',
 		array(),
-		'1.3.2',
+		'1.3.3',
 		true
 	);
 
@@ -64,6 +64,43 @@ function uberrito_new_home_plugin_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'uberrito_new_home_plugin_assets', 100 );
+
+/**
+ * The isolated template does not render Elementor or the child-theme shell.
+ * Removing those unused assets avoids several render-blocking requests on mobile.
+ */
+function uberrito_new_home_remove_unused_assets() {
+	if ( ! is_page( 'new-home' ) ) {
+		return;
+	}
+
+	$styles = array(
+		'litespeed-cache-dummy', 'parent-style', 'child-style', 'swiper-css',
+		'hello-elementor', 'hello-elementor-theme-style', 'hello-elementor-header-footer',
+		'elementor-frontend', 'elementor-post-11', 'widget-image', 'widget-nav-menu',
+		'e-animation-fadeInUp', 'widget-social-icons', 'e-apple-webkit', 'widget-heading',
+		'widget-icon-list', 'widget-form', 'e-animation-zoomIn', 'e-popup',
+		'elementor-post-39', 'elementor-post-40', 'elementor-post-49', 'ubr-effects',
+		'hello-child-style', 'elementor-gf-oswald', 'elementor-gf-poppins',
+	);
+
+	$scripts = array(
+		'jquery', 'jquery-core', 'jquery-migrate', 'swiper-js', 'gsap-js', 'custom-js',
+		'hello-theme-frontend', 'elementor-webpack-runtime', 'elementor-frontend-modules',
+		'jquery-ui-core', 'elementor-frontend', 'smartmenus', 'ubr-effects',
+		'elementor-pro-webpack-runtime', 'wp-hooks', 'wp-i18n', 'elementor-pro-frontend',
+		'pro-elements-handlers',
+	);
+
+	foreach ( $styles as $handle ) {
+		wp_dequeue_style( $handle );
+	}
+
+	foreach ( $scripts as $handle ) {
+		wp_dequeue_script( $handle );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_new_home_remove_unused_assets', 999 );
 
 function uberrito_new_home_plugin_body_class( $classes ) {
 	if ( is_page( 'new-home' ) ) {

@@ -7,6 +7,7 @@
 }
 html{scroll-behavior:smooth}html.nv-loading{overflow:hidden;overscroll-behavior:none}
 body.ub-new-home-page{margin:0;background:var(--nv-paper);color:var(--nv-ink);overflow-x:clip}
+.screen-reader-text{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 body.ub-new-home-page>.elementor-location-header,body.ub-new-home-page>.elementor-location-footer,body.ub-new-home-page #ubr-curtain,body.ub-new-home-page header.site-header,body.ub-new-home-page footer.site-footer{display:none!important}
 .nv-home,.nv-home *,.nv-site-head,.nv-site-head *,.nv-loader,.nv-loader *{box-sizing:border-box}
 .nv-home{overflow:clip;font-family:var(--nv-body)}.nv-home img,.nv-site-head img{display:block;max-width:100%}.nv-home a,.nv-site-head a{color:inherit}
