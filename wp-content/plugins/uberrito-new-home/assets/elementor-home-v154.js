@@ -9,6 +9,7 @@
   function normalizeElementor(){
     document.querySelectorAll('.nv-hero__copy .elementor-heading-title>span:not(.nv-accent),.nv-hero__copy .nv-hero__lede,.nv-hero__copy .nv-hero__lede p,.nv-hero__copy .nv-eyebrow,.nv-hero__copy .nv-hero__location').forEach(function(el){el.style.setProperty('color','#fff','important');el.style.setProperty('-webkit-text-fill-color','#fff','important')});
     var orderText=document.querySelector('.nv-nav__order .elementor-button-text');if(orderText)orderText.textContent='ORDER NOW →';
+    document.querySelectorAll('.nv-menu-item,.nv-feels__copy,.nv-flight__heading,.nv-catering__copy,.nv-catering__visual,.nv-merch__copy,.nv-merch__art').forEach(function(el){el.setAttribute('data-nv-reveal','')});
   }
 
   function loader(){
@@ -33,13 +34,13 @@
   }
 
   function heroSlider(){
-    var hero=document.querySelector('.nv-hero'),slides=hero&&hero.querySelectorAll('[data-hero-slide]'),dots=hero&&hero.querySelectorAll('[data-hero-dot]');if(!hero||!slides||slides.length<2)return;
+    var hero=document.querySelector('.nv-hero'),slides=hero&&hero.querySelectorAll('.nv-hero__slide'),dots=hero&&hero.querySelectorAll('.nv-hero__dots .elementor-widget-button');if(!hero||!slides||slides.length<2)return;
     var index=0,timer;
     function show(n){index=(n+slides.length)%slides.length;slides.forEach(function(s,i){s.classList.toggle('is-active',i===index);s.setAttribute('aria-hidden',i===index?'false':'true')});dots.forEach(function(d,i){d.classList.toggle('is-active',i===index)})}
     function start(){clearInterval(timer);if(!reduced)timer=setInterval(function(){show(index+1)},7000)}
     var prev=hero.querySelector('[data-hero-prev]'),next=hero.querySelector('[data-hero-next]');
     if(prev)prev.addEventListener('click',function(e){e.preventDefault();show(index-1);start()});if(next)next.addEventListener('click',function(e){e.preventDefault();show(index+1);start()});
-    dots.forEach(function(d){d.addEventListener('click',function(e){e.preventDefault();show(Number(d.getAttribute('data-hero-dot')));start()})});show(0);start();
+    dots.forEach(function(d,i){d.addEventListener('click',function(e){e.preventDefault();show(i);start()})});show(0);start();
   }
 
   function navigation(){
