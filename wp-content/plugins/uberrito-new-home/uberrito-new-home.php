@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.5.9
+ * Version: 1.5.5
  * Author: Uberrito
  */
 
@@ -86,26 +86,21 @@ function uberrito_elementor_home_assets() {
 
 	wp_enqueue_style( 'uberrito-elementor-reference-v132', $base_url . 'new-home-v132.css', array( 'elementor-frontend' ), '1.3.5' );
 	wp_enqueue_style(
-		'uberrito-elementor-home-v159',
-		$base_url . 'assets/elementor-home-v159.css',
+		'uberrito-elementor-home-v153',
+		$base_url . 'assets/elementor-home-v153.css',
 		array( 'uberrito-elementor-reference-v132' ),
-		'1.5.9'
+		'1.5.3'
 	);
 	wp_add_inline_style(
-		'uberrito-elementor-home-v159',
+		'uberrito-elementor-home-v153',
 		'.ub-elementor-home-page .nv-menu-proof__item>:first-child .elementor-heading-title{color:#fff!important;-webkit-text-fill-color:#fff!important}@media(max-width:767px){.ub-elementor-home-page .nv-nav__order{position:relative!important}.ub-elementor-home-page .nv-nav__order:after{content:"ORDER NOW →";position:absolute;inset:0;z-index:3;display:grid;place-items:center;color:#06120b;font:900 9px/1 var(--nv-font-body);white-space:nowrap;pointer-events:none}}'
-	);
-
-	wp_add_inline_style(
-		'uberrito-elementor-home-v159',
-		'@media(max-width:767px){.ub-elementor-home-page .nv-nav__order:after{content:"ORDER NOW \2192"!important}}'
 	);
 
 	wp_enqueue_script(
 		'uberrito-elementor-home-v154',
 		$base_url . 'assets/elementor-home-v154.js',
 		array(),
-		'1.5.9',
+		'1.5.3',
 		true
 	);
 	wp_localize_script(
@@ -230,7 +225,6 @@ function uberrito_new_home_litespeed_excludes( $excludes ) {
 	$excludes[] = 'elementor-home-v150.js';
 	$excludes[] = 'elementor-home-v153.css';
 	$excludes[] = 'elementor-home-v153.js';
-	$excludes[] = 'elementor-home-v159.css';
 	$excludes[] = 'elementor-home-v154.js';
 	return array_unique( $excludes );
 }
