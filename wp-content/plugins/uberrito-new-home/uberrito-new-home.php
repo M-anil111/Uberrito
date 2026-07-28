@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.6.2
+ * Version: 1.7.1
  * Author: Uberrito
  */
 
@@ -173,22 +173,22 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v162',
-		$base_url . 'new-home-v162.css',
+		'uberrito-new-home-live-v171',
+		$base_url . 'new-home-v171.css',
 		array(),
-		'1.6.2'
+		'1.7.1'
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v162',
-		$base_url . 'new-home-v162.js',
+		'uberrito-new-home-live-v171',
+		$base_url . 'new-home-v171.js',
 		array(),
-		'1.6.2',
+		'1.7.1',
 		true
 	);
 
 	wp_localize_script(
-		'uberrito-new-home-live-v132',
+		'uberrito-new-home-live-v171',
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
@@ -301,7 +301,7 @@ function uberrito_new_home_filter_style_tag( $html, $handle ) {
 		return $html;
 	}
 
-	$allowed = array( 'uberrito-new-home-live-v162', 'admin-bar', 'dashicons' );
+	$allowed = array( 'uberrito-new-home-live-v171', 'admin-bar', 'dashicons' );
 	return in_array( $handle, $allowed, true ) ? $html : '';
 }
 add_filter( 'style_loader_tag', 'uberrito_new_home_filter_style_tag', 999, 2 );
@@ -311,7 +311,7 @@ function uberrito_new_home_filter_script_tag( $tag, $handle ) {
 		return $tag;
 	}
 
-	return 'uberrito-new-home-live-v162' === $handle ? $tag : '';
+	return 'uberrito-new-home-live-v171' === $handle ? $tag : '';
 }
 add_filter( 'script_loader_tag', 'uberrito_new_home_filter_script_tag', 999, 2 );
 
@@ -357,6 +357,8 @@ function uberrito_new_home_litespeed_excludes( $excludes ) {
 	$excludes[] = 'new-home-v160.js';
 	$excludes[] = 'new-home-v162.css';
 	$excludes[] = 'new-home-v162.js';
+	$excludes[] = 'new-home-v171.css';
+	$excludes[] = 'new-home-v171.js';
 	$excludes[] = 'elementor-home-v150.css';
 	$excludes[] = 'elementor-home-v150.js';
 	$excludes[] = 'elementor-home-v153.css';
