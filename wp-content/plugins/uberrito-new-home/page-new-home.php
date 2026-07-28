@@ -25,7 +25,7 @@ $format_time = static function ( $time ) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<div class="nv-loader" role="dialog" aria-modal="true" aria-label="Preparing your Uberrito experience">
+<div class="nv-loader" role="dialog" aria-modal="true" aria-label="Preparing your Überrito experience">
   <div class="nv-loader__orbit" aria-hidden="true"><span class="nv-food-icon nv-food-icon--bean">●</span><span class="nv-food-icon nv-food-icon--chip">▲</span><span class="nv-food-icon nv-food-icon--cheese">▰</span><span class="nv-food-icon nv-food-icon--lime">◉</span></div>
   <div class="nv-loader__burrito" aria-hidden="true"><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt="" width="900" height="452"></div>
   <p>Rolling something fresh...</p>
@@ -40,7 +40,7 @@ $format_time = static function ( $time ) {
     <div class="nv-offers__controls"><button type="button" data-offer-prev aria-label="Previous offer">←</button><span><b data-offer-current>1</b> / 4</span><button type="button" data-offer-next aria-label="Next offer">→</button><button type="button" data-offer-pause aria-label="Pause offer rotation">Ⅱ</button></div>
   </div></div>
   <nav class="nv-nav" aria-label="Main navigation">
-    <a class="nv-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo $asset( 'uberrito-white-logo.png' ); ?>" alt="Uberrito Fresh Mex" width="854" height="155"></a>
+    <a class="nv-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo $asset( 'uberrito-white-logo.png' ); ?>" alt="Überrito Fresh Mex" width="854" height="155"></a>
     <div class="nv-nav__links"><a href="#menu">Menu</a><a href="#catering">Catering</a><a href="#rewards">Rewards</a><a href="#locations">Locations</a><a href="#merch">Merch</a></div>
     <a class="nv-pill nv-pill--lime" href="<?php echo esc_url( $order_url ); ?>">Order now <span>→</span></a>
     <button class="nv-menu-toggle" type="button" aria-expanded="false" aria-controls="nv-mobile-menu" aria-label="Open menu"><i></i><i></i></button>
@@ -49,7 +49,7 @@ $format_time = static function ( $time ) {
     <div class="nv-menu-preview" aria-hidden="true"><img src="<?php echo $asset( 'burrito.webp' ); ?>" alt=""></div>
     <div class="nv-shell nv-menu-panel">
       <p class="nv-eyebrow">PICK YOUR NEXT MOVE</p>
-      <nav aria-label="Explore Uberrito">
+      <nav aria-label="Explore Überrito">
         <a href="<?php echo esc_url( $order_url ); ?>" data-preview-url="<?php echo $asset( 'burrito.webp' ); ?>"><span>01</span>Order now <b>↗</b></a>
         <a href="<?php echo esc_url( home_url( '/menu/' ) ); ?>" data-preview-url="<?php echo $asset( 'Bowl-1.webp' ); ?>"><span>02</span>View menu <b>↗</b></a>
         <a href="https://www.instagram.com/uberrito/" data-preview-url="<?php echo $asset( 'tacos.webp' ); ?>"><span>03</span>Follow us <b>↗</b></a>
@@ -65,9 +65,9 @@ $format_time = static function ( $time ) {
 
 <main id="content" class="nv-home">
   <div class="nv-pointer-trail" aria-hidden="true"></div>
-  <section class="nv-hero" aria-label="Uberrito highlights">
+  <section class="nv-hero" aria-label="Überrito highlights">
     <article class="nv-hero__slide is-active" data-hero-slide aria-labelledby="nv-hero-title">
-      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'banner-home.webp' ); ?>" alt="Uberrito team member finishing a fresh bowl" width="1920" height="950" fetchpriority="high"></div>
+      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'banner-home.webp' ); ?>" alt="Überrito team member finishing a fresh bowl" width="1920" height="950" fetchpriority="high"></div>
       <div class="nv-hero__shade"></div>
       <div class="nv-shell nv-hero__layout"><div class="nv-hero__copy">
         <p class="nv-eyebrow">FRESH MEX · TEXAS MADE</p>
@@ -78,7 +78,7 @@ $format_time = static function ( $time ) {
       </div></div>
     </article>
     <article class="nv-hero__slide nv-hero__slide--rewards" data-hero-slide aria-labelledby="nv-reward-hero-title" aria-hidden="true">
-      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'banner-home-2.webp' ); ?>" alt="Fresh Uberrito bowl with colorful ingredients" width="1920" height="850"></div>
+      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'banner-home-2.webp' ); ?>" alt="Fresh Überrito bowl with colorful ingredients" width="1920" height="850"></div>
       <div class="nv-hero__shade"></div>
       <div class="nv-shell nv-hero__layout"><div class="nv-hero__copy">
         <p class="nv-eyebrow">NÜ REWARDS · FREE TO JOIN</p>
@@ -91,7 +91,7 @@ $format_time = static function ( $time ) {
     <a class="nv-scroll" href="#menu">Scroll to taste <span>↓</span></a>
   </section>
 
-  <div class="nv-marquee" aria-label="Uberrito brand values"><div>FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i> FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i></div></div>
+  <div class="nv-marquee" aria-label="Überrito brand values"><div>FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i> FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i></div></div>
 
   <section id="menu" class="nv-menu-section"><div class="nv-shell">
     <header class="nv-section-head" data-nv-reveal><div><p class="nv-eyebrow">BUILD IT YOUR WAY</p><h2>OUR <span>MENU</span></h2></div><p>Fresh ingredients. Endless combinations. <em>Made your way.</em></p><a href="<?php echo esc_url( home_url( '/menu/' ) ); ?>">View full menu →</a></header>
@@ -110,7 +110,7 @@ $format_time = static function ( $time ) {
 
   <section class="nv-feels" aria-labelledby="nv-feels-title"><div class="nv-feels__wave"></div><div class="nv-shell nv-feels__stage">
     <div class="nv-feels__copy" data-nv-reveal><p class="nv-eyebrow">THE GOOD STUFF</p><h2 id="nv-feels-title">FOOD THAT<br><span>FEELS GOOD.</span></h2><p>Bright, fresh, filling and completely yours. We prep daily so every bite hits different—in the best way.</p></div>
-    <div class="nv-burrito-pal" data-nv-reveal aria-label="A playful standing burrito character that follows your pointer"><span class="nv-burrito-arm nv-burrito-arm--left"></span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt="Standing Uberrito burrito character" width="900" height="452"><span class="nv-character-eyes"><i class="nv-eye"><b></b></i><i class="nv-eye"><b></b></i></span><span class="nv-burrito-smile"></span><span class="nv-burrito-arm nv-burrito-arm--right"></span><span class="nv-burrito-leg nv-burrito-leg--left"></span><span class="nv-burrito-leg nv-burrito-leg--right"></span><span class="nv-orbit-tag nv-orbit-tag--one">Fresh daily</span><span class="nv-orbit-tag nv-orbit-tag--two">Big flavor</span><span class="nv-orbit-tag nv-orbit-tag--three">Your way</span></div>
+    <div class="nv-burrito-pal" data-nv-reveal aria-label="A playful standing burrito character that follows your pointer"><span class="nv-burrito-arm nv-burrito-arm--left"></span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt="Standing Überrito burrito character" width="900" height="452"><span class="nv-character-eyes"><i class="nv-eye"><b></b></i><i class="nv-eye"><b></b></i></span><span class="nv-burrito-smile"></span><span class="nv-burrito-arm nv-burrito-arm--right"></span><span class="nv-burrito-leg nv-burrito-leg--left"></span><span class="nv-burrito-leg nv-burrito-leg--right"></span><span class="nv-orbit-tag nv-orbit-tag--one">Fresh daily</span><span class="nv-orbit-tag nv-orbit-tag--two">Big flavor</span><span class="nv-orbit-tag nv-orbit-tag--three">Your way</span></div>
   </div></section>
 
   <section id="locations" class="nv-flight" aria-labelledby="nv-flight-title"><div class="nv-flight__sticky">
@@ -123,7 +123,7 @@ $format_time = static function ( $time ) {
     ?>
       <article class="nv-location-card <?php echo esc_attr( $card_class ); ?>" data-nv-reveal>
         <span><?php echo esc_html( str_pad( (string) ( $location_index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span>
-        <img src="<?php echo esc_url( $location['image'] ); ?>" alt="<?php echo esc_attr( 'Uberrito ' . $location['name'] . ' exterior' ); ?>" width="900" height="620" loading="lazy">
+        <img src="<?php echo esc_url( $location['image'] ); ?>" alt="<?php echo esc_attr( 'Überrito ' . $location['name'] . ' exterior' ); ?>" width="900" height="620" loading="lazy">
         <div>
           <div class="nv-location-card__topline"><h3><?php echo esc_html( $location['name'] ); ?></h3><b class="nv-location-status <?php echo $status['is_open'] ? 'is-open' : 'is-closed'; ?>"><?php echo esc_html( $status['label'] ); ?></b></div>
           <p><?php echo esc_html( $location['address_one'] ); ?><br><?php echo esc_html( $location['address_two'] ); ?></p>
@@ -134,20 +134,20 @@ $format_time = static function ( $time ) {
     <?php endforeach; ?>
   </div></section>
 
-  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>UBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Uberrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span><div class="nv-clippy nv-clippy--catering" aria-hidden="true"><span class="nv-clippy__bubble">Need lunch for the whole crew? I got you!</span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt=""><span class="nv-clippy__eyes"><i></i><i></i></span></div></div></section>
+  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>ÜBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Überrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span><div class="nv-clippy nv-clippy--catering" aria-hidden="true"><span class="nv-clippy__bubble">Need lunch for the whole crew? I got you!</span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt=""><span class="nv-clippy__eyes"><i></i><i></i></span></div></div></section>
 
   <section id="merch" class="nv-merch" aria-labelledby="nv-merch-title"><div class="nv-shell nv-merch__layout">
-    <div class="nv-merch__copy" data-nv-reveal><p class="nv-eyebrow">OFFICIAL MERCH · LIMITED DROPS</p><h2 id="nv-merch-title">WEAR THE<br><span>UBERRITO</span><br>LIFESTYLE.</h2><p>Premium apparel, drinkware and everyday essentials designed for true Uberrito fans.</p><a class="nv-pill nv-pill--green nv-magnetic" href="#nv-mobile-menu" data-nv-open-menu>Shop merch <span>→</span></a></div>
-    <div class="nv-merch__art nv-parallax" data-depth="14" data-nv-reveal><img class="nv-merch__collection" src="<?php echo $asset( 'merch-official.webp' ); ?>" alt="Official Uberrito merchandise" width="1024" height="1024" loading="lazy"><img class="nv-merch__cup" src="<?php echo $plugin_asset( 'uberrito-cup.png' ); ?>" alt="Uberrito Above and Beyond Burrito cup" width="511" height="1080" loading="lazy"><div>DROP<br><b>001</b></div></div>
+    <div class="nv-merch__copy" data-nv-reveal><p class="nv-eyebrow">OFFICIAL MERCH · LIMITED DROPS</p><h2 id="nv-merch-title">WEAR THE<br><span>ÜBERRITO</span><br>LIFESTYLE.</h2><p>Premium apparel, drinkware and everyday essentials designed for true Überrito fans.</p><a class="nv-pill nv-pill--green nv-magnetic" href="#nv-mobile-menu" data-nv-open-menu>Shop merch <span>→</span></a></div>
+    <div class="nv-merch__art nv-parallax" data-depth="14" data-nv-reveal><img class="nv-merch__collection" src="<?php echo $asset( 'merch-official.webp' ); ?>" alt="Official Überrito merchandise" width="1024" height="1024" loading="lazy"><img class="nv-merch__cup" src="<?php echo $plugin_asset( 'uberrito-cup.png' ); ?>" alt="Überrito Above and Beyond Burrito cup" width="511" height="1080" loading="lazy"><div>DROP<br><b>001</b></div></div>
   </div></section>
 
-  <section id="rewards" class="nv-reward-ribbon" aria-label="Uberrito rewards"><div class="nv-shell"><div><p>NÜ REWARDS · NEW MEMBER BONUS</p><h2>EAT. EARN. <span>EAT FREE.</span></h2><strong>Join today and get enough bonus points for a FREE side.</strong></div><a class="nv-face-button nv-face-button--small nv-magnetic" href="<?php echo esc_url( $rewards_url ); ?>"><span class="nv-eye"><i></i></span><span class="nv-eye"><i></i></span><b>JOIN<br>FREE</b></a></div></section>
+  <section id="rewards" class="nv-reward-ribbon" aria-label="Überrito rewards"><div class="nv-shell"><div><p>NÜ REWARDS · NEW MEMBER BONUS</p><h2>EAT. EARN. <span>EAT FREE.</span></h2><strong>Join today and get enough bonus points for a FREE side.</strong></div><a class="nv-face-button nv-face-button--small nv-magnetic" href="<?php echo esc_url( $rewards_url ); ?>"><span class="nv-eye"><i></i></span><span class="nv-eye"><i></i></span><b>JOIN<br>FREE</b></a></div></section>
 
   <footer class="nv-footer">
     <div class="nv-ninja-stage" aria-hidden="true"><div class="nv-slash-trail"></div><?php foreach ( array( 'wrapped-burrito.png.webp', 'uberrito-chips-guacamole.png', 'Fajita-Steak.webp', 'lime-slices.png.webp', 'nachos.webp' ) as $index => $food ) : ?><span class="nv-ninja-item nv-ninja-item--<?php echo esc_attr( (string) ( $index + 1 ) ); ?>" data-ninja-item><i class="nv-ninja-half nv-ninja-half--left" style="--food:url('<?php echo $asset( $food ); ?>')"></i><i class="nv-ninja-half nv-ninja-half--right" style="--food:url('<?php echo $asset( $food ); ?>')"></i></span><?php endforeach; ?></div>
     <div class="nv-shell nv-footer__top"><p>Fresh ingredients · bold flavor · made daily</p><p>Atascocita · Sugar Land</p></div>
-    <div class="nv-footer__word" aria-label="Uberrito"><img src="<?php echo $asset( 'uberrito-white-logo.png' ); ?>" alt="Uberrito Fresh Mex" width="854" height="155"></div>
-    <div class="nv-shell nv-footer__base"><p>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Uberrito</p><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a><a href="<?php echo esc_url( $order_url ); ?>">Order now ↗</a></div>
+    <div class="nv-footer__word" aria-label="Überrito"><img src="<?php echo $asset( 'uberrito-white-logo.png' ); ?>" alt="Überrito Fresh Mex" width="854" height="155"></div>
+    <div class="nv-shell nv-footer__base"><p>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Überrito</p><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a><a href="<?php echo esc_url( $order_url ); ?>">Order now ↗</a></div>
   </footer>
 </main>
 <?php wp_footer(); ?>
