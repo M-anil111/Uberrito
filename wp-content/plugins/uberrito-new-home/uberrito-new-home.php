@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.5.5
+ * Version: 1.6.2
  * Author: Uberrito
  */
 
@@ -10,6 +10,138 @@ defined( 'ABSPATH' ) || exit;
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/elementor-home-migration.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/elementor-new-home-v142.php';
+
+/**
+ * Editable location details used by the isolated /new-home/ experience.
+ */
+function uberrito_new_home_location_defaults() {
+	return array(
+		'atascocita' => array(
+			'name'         => 'Atascocita',
+			'address_one'  => '7025 Farm to Market 1960 Rd E',
+			'address_two'  => 'Humble, TX 77346',
+			'open_time'    => '10:45',
+			'close_time'   => '21:00',
+			'directions'   => 'https://www.google.com/maps/dir/?api=1&destination=7025%20Farm%20to%20Market%201960%20Rd%20E%2C%20Humble%2C%20TX%2077346',
+			'image'        => plugin_dir_url( __FILE__ ) . 'location-atascocita-google.jpg',
+		),
+		'sugar_land' => array(
+			'name'         => 'Sugar Land',
+			'address_one'  => '2735 Town Center Blvd N, Suite C',
+			'address_two'  => 'Sugar Land, TX 77479',
+			'open_time'    => '10:30',
+			'close_time'   => '22:30',
+			'directions'   => 'https://www.google.com/maps/dir/?api=1&destination=2735%20Town%20Center%20Blvd%20N%2C%20Sugar%20Land%2C%20TX%2077479',
+			'image'        => plugin_dir_url( __FILE__ ) . 'location-sugar-land-google.png',
+		),
+	);
+}
+
+function uberrito_new_home_locations() {
+	$saved    = get_option( 'uberrito_new_home_locations', array() );
+	$defaults = uberrito_new_home_location_defaults();
+
+	foreach ( $defaults as $key => $location ) {
+		if ( isset( $saved[ $key ] ) && is_array( $saved[ $key ] ) ) {
+			$defaults[ $key ] = wp_parse_args( $saved[ $key ], $location );
+		}
+	}
+
+	return $defaults;
+}
+
+function uberrito_new_home_sanitize_locations( $value ) {
+	$clean = uberrito_new_home_location_defaults();
+	foreach ( $clean as $key => $location ) {
+		$submitted = isset( $value[ $key ] ) && is_array( $value[ $key ] ) ? $value[ $key ] : array();
+		$clean[ $key ] = array(
+			'name'        => sanitize_text_field( $submitted['name'] ?? $location['name'] ),
+			'address_one' => sanitize_text_field( $submitted['address_one'] ?? $location['address_one'] ),
+			'address_two' => sanitize_text_field( $submitted['address_two'] ?? $location['address_two'] ),
+			'open_time'   => preg_match( '/^\d{2}:\d{2}$/', $submitted['open_time'] ?? '' ) ? $submitted['open_time'] : $location['open_time'],
+			'close_time'  => preg_match( '/^\d{2}:\d{2}$/', $submitted['close_time'] ?? '' ) ? $submitted['close_time'] : $location['close_time'],
+			'directions'  => esc_url_raw( $submitted['directions'] ?? $location['directions'] ),
+			'image'       => esc_url_raw( $submitted['image'] ?? $location['image'] ),
+		);
+	}
+	return $clean;
+}
+
+function uberrito_new_home_register_location_settings() {
+	register_setting(
+		'uberrito_new_home_locations',
+		'uberrito_new_home_locations',
+		array( 'sanitize_callback' => 'uberrito_new_home_sanitize_locations' )
+	);
+}
+add_action( 'admin_init', 'uberrito_new_home_register_location_settings' );
+
+function uberrito_new_home_location_settings_page() {
+	add_options_page(
+		'Uberrito New Home Locations',
+		'Uberrito Locations',
+		'manage_options',
+		'uberrito-new-home-locations',
+		'uberrito_new_home_render_location_settings'
+	);
+}
+add_action( 'admin_menu', 'uberrito_new_home_location_settings_page' );
+
+function uberrito_new_home_render_location_settings() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$locations = uberrito_new_home_locations();
+	?>
+	<div class="wrap">
+		<h1>Uberrito New Home Locations</h1>
+		<p>These details control the two location cards and their live Open now / Closed status on <code>/new-home/</code>. Times use America/Chicago and apply every day.</p>
+		<form method="post" action="options.php">
+			<?php settings_fields( 'uberrito_new_home_locations' ); ?>
+			<?php foreach ( $locations as $key => $location ) : ?>
+				<h2><?php echo esc_html( $location['name'] ); ?></h2>
+				<table class="form-table" role="presentation">
+					<?php
+					$fields = array(
+						'name'        => array( 'Location name', 'text' ),
+						'address_one' => array( 'Address line 1', 'text' ),
+						'address_two' => array( 'Address line 2', 'text' ),
+						'open_time'   => array( 'Daily opening time', 'time' ),
+						'close_time'  => array( 'Daily closing time', 'time' ),
+						'directions'  => array( 'Directions URL', 'url' ),
+						'image'       => array( 'Location image URL', 'url' ),
+					);
+					foreach ( $fields as $field => $meta ) :
+						?>
+						<tr>
+							<th scope="row"><label for="<?php echo esc_attr( $key . '-' . $field ); ?>"><?php echo esc_html( $meta[0] ); ?></label></th>
+							<td><input class="regular-text" type="<?php echo esc_attr( $meta[1] ); ?>" id="<?php echo esc_attr( $key . '-' . $field ); ?>" name="uberrito_new_home_locations[<?php echo esc_attr( $key ); ?>][<?php echo esc_attr( $field ); ?>]" value="<?php echo esc_attr( $location[ $field ] ); ?>"></td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+			<?php endforeach; ?>
+			<?php submit_button(); ?>
+		</form>
+	</div>
+	<?php
+}
+
+function uberrito_new_home_location_status( $location ) {
+	try {
+		$timezone = new DateTimeZone( 'America/Chicago' );
+		$now      = new DateTimeImmutable( 'now', $timezone );
+		$open     = DateTimeImmutable::createFromFormat( 'Y-m-d H:i', $now->format( 'Y-m-d' ) . ' ' . $location['open_time'], $timezone );
+		$close    = DateTimeImmutable::createFromFormat( 'Y-m-d H:i', $now->format( 'Y-m-d' ) . ' ' . $location['close_time'], $timezone );
+		$is_open  = $open && $close && $now >= $open && $now < $close;
+	} catch ( Exception $exception ) {
+		$is_open = false;
+	}
+
+	return array(
+		'is_open' => $is_open,
+		'label'   => $is_open ? 'Open now' : 'Closed',
+	);
+}
 
 /**
  * Use the bundled page template only for the New Home experiment.
@@ -41,17 +173,17 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v132',
-		$base_url . 'new-home-v132.css',
+		'uberrito-new-home-live-v162',
+		$base_url . 'new-home-v162.css',
 		array(),
-		'1.3.5'
+		'1.6.2'
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v132',
-		$base_url . 'new-home-v132.js',
+		'uberrito-new-home-live-v162',
+		$base_url . 'new-home-v162.js',
 		array(),
-		'1.3.5',
+		'1.6.2',
 		true
 	);
 
@@ -169,7 +301,7 @@ function uberrito_new_home_filter_style_tag( $html, $handle ) {
 		return $html;
 	}
 
-	$allowed = array( 'uberrito-new-home-live-v132', 'admin-bar', 'dashicons' );
+	$allowed = array( 'uberrito-new-home-live-v162', 'admin-bar', 'dashicons' );
 	return in_array( $handle, $allowed, true ) ? $html : '';
 }
 add_filter( 'style_loader_tag', 'uberrito_new_home_filter_style_tag', 999, 2 );
@@ -179,7 +311,7 @@ function uberrito_new_home_filter_script_tag( $tag, $handle ) {
 		return $tag;
 	}
 
-	return 'uberrito-new-home-live-v132' === $handle ? $tag : '';
+	return 'uberrito-new-home-live-v162' === $handle ? $tag : '';
 }
 add_filter( 'script_loader_tag', 'uberrito_new_home_filter_script_tag', 999, 2 );
 
@@ -221,6 +353,10 @@ function uberrito_new_home_litespeed_excludes( $excludes ) {
 	$excludes[] = 'new-home-v130.js';
 	$excludes[] = 'new-home-v132.css';
 	$excludes[] = 'new-home-v132.js';
+	$excludes[] = 'new-home-v160.css';
+	$excludes[] = 'new-home-v160.js';
+	$excludes[] = 'new-home-v162.css';
+	$excludes[] = 'new-home-v162.js';
 	$excludes[] = 'elementor-home-v150.css';
 	$excludes[] = 'elementor-home-v150.js';
 	$excludes[] = 'elementor-home-v153.css';

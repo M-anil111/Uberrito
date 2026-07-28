@@ -9,6 +9,11 @@ $order_url = 'https://uberrito.toast.site/';
 $rewards_url = home_url( '/rewards/' );
 $locations_url = home_url( '/locations/' );
 $catering_url = home_url( '/catering/' );
+$location_data = function_exists( 'uberrito_new_home_locations' ) ? uberrito_new_home_locations() : array();
+$format_time = static function ( $time ) {
+	$parsed = DateTimeImmutable::createFromFormat( 'H:i', $time );
+	return $parsed ? $parsed->format( 'g:i A' ) : $time;
+};
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -47,7 +52,7 @@ $catering_url = home_url( '/catering/' );
   <div class="nv-pointer-trail" aria-hidden="true"></div>
   <section class="nv-hero" aria-label="Uberrito highlights">
     <article class="nv-hero__slide is-active" data-hero-slide aria-labelledby="nv-hero-title">
-      <div class="nv-hero__backdrop"><img src="<?php echo $plugin_asset( 'hero-fresh-burrito.webp' ); ?>" alt="Fresh Uberrito burritos filled with grilled protein and vegetables" width="1672" height="941" fetchpriority="high"></div>
+      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'banner-home.webp' ); ?>" alt="Uberrito team member finishing a fresh bowl" width="1920" height="950" fetchpriority="high"></div>
       <div class="nv-hero__shade"></div>
       <div class="nv-shell nv-hero__layout"><div class="nv-hero__copy">
         <p class="nv-eyebrow">FRESH MEX · TEXAS MADE</p>
@@ -58,7 +63,7 @@ $catering_url = home_url( '/catering/' );
       </div></div>
     </article>
     <article class="nv-hero__slide nv-hero__slide--rewards" data-hero-slide aria-labelledby="nv-reward-hero-title" aria-hidden="true">
-      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'rewards-burritos.webp' ); ?>" alt="Uberrito rewards meal" width="1600" height="900"></div>
+      <div class="nv-hero__backdrop"><img src="<?php echo $asset( 'banner-home-2.webp' ); ?>" alt="Fresh Uberrito bowl with colorful ingredients" width="1920" height="850"></div>
       <div class="nv-hero__shade"></div>
       <div class="nv-shell nv-hero__layout"><div class="nv-hero__copy">
         <p class="nv-eyebrow">NÜ REWARDS · FREE TO JOIN</p>
@@ -74,7 +79,7 @@ $catering_url = home_url( '/catering/' );
   <div class="nv-marquee" aria-label="Uberrito brand values"><div>FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i> FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i></div></div>
 
   <section id="menu" class="nv-menu-section"><div class="nv-shell">
-    <header class="nv-section-head" data-nv-reveal><div><p class="nv-eyebrow">PICK YOUR PLAYER</p><h2>OUR <span>MENU</span></h2></div><p>Fresh ingredients. Endless combinations. <em>Made your way.</em></p><a href="<?php echo esc_url( home_url( '/menu/' ) ); ?>">View full menu →</a></header>
+    <header class="nv-section-head" data-nv-reveal><div><p class="nv-eyebrow">BUILD IT YOUR WAY</p><h2>OUR <span>MENU</span></h2></div><p>Fresh ingredients. Endless combinations. <em>Made your way.</em></p><a href="<?php echo esc_url( home_url( '/menu/' ) ); ?>">View full menu →</a></header>
     <div class="nv-menu-grid">
       <?php
       $menu_items = array(
@@ -96,11 +101,25 @@ $catering_url = home_url( '/catering/' );
   <section id="locations" class="nv-flight" aria-labelledby="nv-flight-title"><div class="nv-flight__sticky">
     <div class="nv-shell nv-flight__heading" data-nv-reveal><p class="nv-eyebrow">TEXAS, TWO WAYS</p><h2 id="nv-flight-title">FRESH FLAVOR<br><span>HAS LANDED.</span></h2></div>
     <svg class="nv-flight__path" viewBox="0 0 1400 620" role="img" aria-label="Route from Atascocita to Sugar Land"><path id="nv-flight-path" d="M80 480 C300 80 540 90 700 310 S1090 610 1320 150" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-dasharray="18 22"/></svg><div class="nv-plane" aria-hidden="true">✈</div>
-    <article class="nv-location-card nv-location-card--one" data-nv-reveal><span>01</span><img src="<?php echo $asset( 'uberrito-atascocita-exterior.jpeg' ); ?>" alt="Uberrito Atascocita exterior" width="1200" height="1063" loading="lazy"><div><h3>Atascocita</h3><p>19350 W Lake Houston Pkwy<br>Humble, TX 77346</p><a href="<?php echo esc_url( $locations_url ); ?>">Get directions →</a></div></article>
-    <article class="nv-location-card nv-location-card--two" data-nv-reveal><span>02</span><img src="<?php echo $asset( 'uberrito-restaurant-interior.jpeg' ); ?>" alt="Inside Uberrito Sugar Land" width="1536" height="1022" loading="lazy"><div><h3>Sugar Land</h3><p>15445 SW Fwy, Suite 500<br>Sugar Land, TX 77478</p><a href="<?php echo esc_url( $locations_url ); ?>">Get directions →</a></div></article>
+    <?php
+    foreach ( array_values( $location_data ) as $location_index => $location ) :
+      $status = uberrito_new_home_location_status( $location );
+      $card_class = 0 === $location_index ? 'nv-location-card--one' : 'nv-location-card--two';
+    ?>
+      <article class="nv-location-card <?php echo esc_attr( $card_class ); ?>" data-nv-reveal>
+        <span><?php echo esc_html( str_pad( (string) ( $location_index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span>
+        <img src="<?php echo esc_url( $location['image'] ); ?>" alt="<?php echo esc_attr( 'Uberrito ' . $location['name'] . ' exterior' ); ?>" width="900" height="620" loading="lazy">
+        <div>
+          <div class="nv-location-card__topline"><h3><?php echo esc_html( $location['name'] ); ?></h3><b class="nv-location-status <?php echo $status['is_open'] ? 'is-open' : 'is-closed'; ?>"><?php echo esc_html( $status['label'] ); ?></b></div>
+          <p><?php echo esc_html( $location['address_one'] ); ?><br><?php echo esc_html( $location['address_two'] ); ?></p>
+          <p class="nv-location-hours">Daily <?php echo esc_html( $format_time( $location['open_time'] ) . ' - ' . $format_time( $location['close_time'] ) ); ?></p>
+          <a href="<?php echo esc_url( $location['directions'] ); ?>">Get directions →</a>
+        </div>
+      </article>
+    <?php endforeach; ?>
   </div></section>
 
-  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>UBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a><div class="nv-clippy nv-clippy--catering" aria-hidden="true"><span class="nv-clippy__bubble">Need lunch for the whole crew? I got you!</span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt=""><span class="nv-clippy__eyes"><i></i><i></i></span></div></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Uberrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span></div></section>
+  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>UBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Uberrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span><div class="nv-clippy nv-clippy--catering" aria-hidden="true"><span class="nv-clippy__bubble">Need lunch for the whole crew? I got you!</span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt=""><span class="nv-clippy__eyes"><i></i><i></i></span></div></div></section>
 
   <section id="merch" class="nv-merch" aria-labelledby="nv-merch-title"><div class="nv-shell nv-merch__layout">
     <div class="nv-merch__copy" data-nv-reveal><p class="nv-eyebrow">OFFICIAL MERCH · LIMITED DROPS</p><h2 id="nv-merch-title">WEAR THE<br><span>UBERRITO</span><br>LIFESTYLE.</h2><p>Premium apparel, drinkware and everyday essentials designed for true Uberrito fans.</p><a class="nv-pill nv-pill--green nv-magnetic" href="#bottom-nav">Shop merch <span>→</span></a></div>
