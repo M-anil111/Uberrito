@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 $uploads = trailingslashit( set_url_scheme( wp_get_upload_dir()['baseurl'], 'https' ) ) . '2026/07/';
 $asset = static function ( $file ) use ( $uploads ) { return esc_url( $uploads . ltrim( $file, '/' ) ); };
 $plugin_asset = static function ( $file ) { return esc_url( plugin_dir_url( __FILE__ ) . ltrim( $file, '/' ) ); };
+$secure_asset = static function ( $url ) { return esc_url( set_url_scheme( $url, 'https' ) ); };
 $safe_url = static function ( $path, $label ) {
 	return function_exists( 'uberrito_new_home_safe_url' ) ? uberrito_new_home_safe_url( $path, $label ) : home_url( '/coming-soon/' );
 };
@@ -47,20 +48,14 @@ $format_time = static function ( $time ) {
 </div>
 
 <header class="nv-site-head">
-  <div class="nv-offers" aria-label="Current offers"><div class="nv-offers__inner">
-    <img class="nv-offers__image" src="<?php echo $asset( 'rewards-chips.webp' ); ?>" alt="" width="600" height="300">
-    <div class="nv-offers__copy" aria-live="polite"><small>NEW MEMBER OFFER</small><p>New here? Get <strong>FREE</strong> small chips &amp; queso.</p></div>
-    <a class="nv-offers__link" href="<?php echo esc_url( $rewards_url ); ?>">Join now <span aria-hidden="true">→</span></a>
-    <div class="nv-offers__controls"><button type="button" data-offer-prev aria-label="Previous offer">←</button><span><b data-offer-current>1</b> / 4</span><button type="button" data-offer-next aria-label="Next offer">→</button><button type="button" data-offer-pause aria-label="Pause offer rotation">Ⅱ</button></div>
-  </div></div>
   <nav class="nv-nav" aria-label="Main navigation">
     <a class="nv-logo" href="<?php echo esc_url( home_url( '/new-home/' ) ); ?>"><img src="<?php echo $asset( 'uberrito-white-logo.png' ); ?>" alt="Überrito Fresh Mex" width="854" height="155"></a>
     <div class="nv-nav__links">
       <div class="nv-nav__item"><a href="<?php echo esc_url( $catering_url ); ?>" data-mega-trigger>Catering</a><div class="nv-mega nv-mega--single"><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt=""><div><small>Feed the whole group</small><h2>You bet your taco we cater.</h2><p>Corporate lunches, parties and game days made fresh.</p><a href="<?php echo esc_url( $catering_url ); ?>">Explore catering →</a></div></div></div>
       <div class="nv-nav__item"><a href="<?php echo esc_url( $rewards_url ); ?>" data-mega-trigger>Rewards</a><div class="nv-mega"><a class="nv-mega__card" href="<?php echo esc_url( $rewards_url ); ?>"><img src="<?php echo $asset( 'rewards-burritos.webp' ); ?>" alt=""><span><small>NÜ Rewards</small><b>Eat. Earn. Eat free.</b></span></a><a class="nv-mega__card" href="<?php echo esc_url( $loyalty_url ); ?>"><img src="<?php echo $asset( 'rewards-chips.webp' ); ?>" alt=""><span><small>Join Rewards</small><b>Get 60 points instantly.</b></span></a></div></div>
-      <div class="nv-nav__item"><a href="<?php echo esc_url( $locations_url ); ?>" data-mega-trigger>Locations</a><div class="nv-mega"><a class="nv-mega__location" href="<?php echo esc_url( $location_data['atascocita']['directions'] ?? $locations_url ); ?>"><img src="<?php echo esc_url( $location_data['atascocita']['image'] ?? $plugin_asset( 'location-atascocita-google.jpg' ) ); ?>" alt=""><span><small>01</small><b>Atascocita</b><em>Humble, TX</em></span></a><a class="nv-mega__location" href="<?php echo esc_url( $location_data['sugar_land']['directions'] ?? $locations_url ); ?>"><img src="<?php echo esc_url( $location_data['sugar_land']['image'] ?? $plugin_asset( 'location-sugar-land-google.png' ) ); ?>" alt=""><span><small>02</small><b>Sugar Land</b><em>Sugar Land, TX</em></span></a></div></div>
+      <div class="nv-nav__item"><a href="<?php echo esc_url( $locations_url ); ?>" data-mega-trigger>Locations</a><div class="nv-mega"><a class="nv-mega__location" href="<?php echo esc_url( $location_data['atascocita']['directions'] ?? $locations_url ); ?>"><img src="<?php echo $secure_asset( $location_data['atascocita']['image'] ?? $plugin_asset( 'location-atascocita-google.jpg' ) ); ?>" alt=""><span><small>01</small><b>Atascocita</b><em>Humble, TX</em></span></a><a class="nv-mega__location" href="<?php echo esc_url( $location_data['sugar_land']['directions'] ?? $locations_url ); ?>"><img src="<?php echo $secure_asset( $location_data['sugar_land']['image'] ?? $plugin_asset( 'location-sugar-land-google.png' ) ); ?>" alt=""><span><small>02</small><b>Sugar Land</b><em>Sugar Land, TX</em></span></a></div></div>
       <div class="nv-nav__item"><a href="<?php echo esc_url( $about_url ); ?>" data-mega-trigger>About</a><div class="nv-mega"><a class="nv-mega__card" href="<?php echo esc_url( $about_url ); ?>"><img src="<?php echo $asset( 'banner-home.webp' ); ?>" alt=""><span><small>Our Story</small><b>Fresh Mex. Texas made.</b></span></a><a class="nv-mega__card" href="<?php echo esc_url( $franchise_url ); ?>"><img src="<?php echo $plugin_asset( 'location-sugar-land-google.png' ); ?>" alt=""><span><small>Franchise</small><b>Bring bold flavor home.</b></span></a></div></div>
-      <div class="nv-nav__item"><a href="<?php echo esc_url( $gift_cards_url ); ?>" data-mega-trigger>Gift Cards</a><div class="nv-mega nv-mega--single"><img src="<?php echo $asset( 'merch-official.webp' ); ?>" alt=""><div><small>The gift of fresh</small><h2>Good taste. Zero guessing.</h2><a href="<?php echo esc_url( $gift_cards_url ); ?>">Get a gift card →</a></div></div></div>
+      <div class="nv-nav__item"><a href="<?php echo esc_url( $gift_cards_url ); ?>" data-mega-trigger>Gift Cards</a><div class="nv-mega nv-mega--single"><img src="<?php echo $asset( 'rewards-burritos.webp' ); ?>" alt=""><div><small>The gift of fresh</small><h2>Good taste. Zero guessing.</h2><a href="<?php echo esc_url( $gift_cards_url ); ?>">Get a gift card →</a></div></div></div>
     </div>
     <a class="nv-pill nv-pill--lime" href="<?php echo esc_url( $order_url ); ?>" target="_blank" rel="noopener">Order now <span>→</span></a>
     <button class="nv-menu-toggle" type="button" aria-expanded="false" aria-controls="nv-mobile-menu" aria-label="Open menu"><i></i><i></i></button>
@@ -76,7 +71,7 @@ $format_time = static function ( $time ) {
         <a href="<?php echo esc_url( $locations_url ); ?>" data-preview-url="<?php echo $plugin_asset( 'location-atascocita-google.jpg' ); ?>"><span>04</span>Locations <b>↗</b></a>
         <a href="<?php echo esc_url( $about_url ); ?>" data-preview-url="<?php echo $asset( 'banner-home.webp' ); ?>"><span>05</span>Our Story <b>↗</b></a>
         <a href="<?php echo esc_url( $franchise_url ); ?>" data-preview-url="<?php echo $plugin_asset( 'location-sugar-land-google.png' ); ?>"><span>06</span>Franchise <b>↗</b></a>
-        <a href="<?php echo esc_url( $gift_cards_url ); ?>" data-preview-url="<?php echo $asset( 'merch-official.webp' ); ?>"><span>07</span>Gift Cards <b>↗</b></a>
+        <a href="<?php echo esc_url( $gift_cards_url ); ?>" data-preview-url="<?php echo $asset( 'rewards-burritos.webp' ); ?>"><span>07</span>Gift Cards <b>↗</b></a>
         <a href="<?php echo esc_url( $ios_url ); ?>" target="_blank" rel="noopener" data-preview-url="<?php echo $asset( 'rewards-burritos.webp' ); ?>"><span>08</span>Download iOS app <b>↗</b></a>
         <a href="<?php echo esc_url( $android_url ); ?>" target="_blank" rel="noopener" data-preview-url="<?php echo $asset( 'bowl-and-glass.webp' ); ?>"><span>09</span>Download Android app <b>↗</b></a>
       </nav>
@@ -111,6 +106,13 @@ $format_time = static function ( $time ) {
     <a class="nv-scroll" href="#menu">Scroll to taste <span>↓</span></a>
   </section>
 
+  <div class="nv-offers" aria-label="Current offers"><div class="nv-offers__inner">
+    <img class="nv-offers__image" src="<?php echo $asset( 'rewards-chips.webp' ); ?>" alt="" width="600" height="300">
+    <div class="nv-offers__copy" aria-live="polite"><small>NEW MEMBER OFFER</small><p>New here? Get <strong>FREE</strong> small chips &amp; queso.</p></div>
+    <a class="nv-offers__link" href="<?php echo esc_url( $rewards_url ); ?>">Join now <span aria-hidden="true">→</span></a>
+    <div class="nv-offers__controls"><button type="button" data-offer-prev aria-label="Previous offer">←</button><span><b data-offer-current>1</b> / 4</span><button type="button" data-offer-next aria-label="Next offer">→</button><button type="button" data-offer-pause aria-label="Pause offer rotation">Ⅱ</button></div>
+  </div></div>
+
   <div class="nv-marquee" aria-label="Überrito brand values"><div>FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i> FRESH INGREDIENTS <i>✹</i> BOLD FLAVOR <i>✹</i> MADE YOUR WAY <i>✹</i> ZERO BORING BITES <i>✹</i></div></div>
 
   <section id="menu" class="nv-menu-section"><div class="nv-shell">
@@ -129,11 +131,11 @@ $format_time = static function ( $time ) {
   </div></section>
 
   <section class="nv-feels" aria-labelledby="nv-feels-title"><div class="nv-feels__wave"></div><div class="nv-shell nv-feels__stage">
-    <div class="nv-feels__copy" data-nv-reveal><p class="nv-eyebrow">THE GOOD STUFF</p><h2 id="nv-feels-title">FOOD THAT<br><span>FEELS GOOD.</span></h2><p>Bright, fresh, filling and completely yours. We prep daily so every bite hits different, in the best way.</p></div>
-    <div class="nv-feels__food nv-parallax" data-depth="12" data-nv-reveal>
-      <div class="nv-burrito-character nv-foil-character" aria-label="A playful foil-wrapped Uberrito burrito"><img src="<?php echo $plugin_asset( 'assets/foil-burrito-v3.png' ); ?>" alt="Foil-wrapped Uberrito burrito" width="1536" height="1024" loading="lazy"><span class="nv-foil-eyes"><i></i><i></i></span><b class="nv-foil-smile"></b><i class="nv-foil-arm nv-foil-arm--left"></i><i class="nv-foil-arm nv-foil-arm--right"></i><i class="nv-foil-leg nv-foil-leg--left"></i><i class="nv-foil-leg nv-foil-leg--right"></i></div>
-      <span>Fresh daily</span><span>Big flavor</span><span>Made your way</span>
-    </div>
+    <div class="nv-feels__copy" data-nv-reveal><p class="nv-eyebrow">WHAT GOOD TASTES LIKE</p><h2 id="nv-feels-title">REAL FOOD.<br><span>BOLDLY YOURS.</span></h2><p>Fresh-prepped ingredients. Grilled proteins. House-made flavor. Every bowl, burrito and taco is built your way, right when you order.</p></div>
+    <figure class="nv-feels__photo nv-parallax" data-depth="8" data-nv-reveal>
+      <img src="<?php echo $plugin_asset( 'assets/food-quality-collage.webp' ); ?>" alt="Uberrito burrito, bowl, taco and salad made with fresh ingredients" width="1200" height="800" loading="lazy">
+      <figcaption><span>Prepared daily</span><span>Made to order</span><span>Full of flavor</span></figcaption>
+    </figure>
   </div></section>
 
   <section class="nv-protein" aria-labelledby="nv-protein-title">
@@ -167,6 +169,8 @@ $format_time = static function ( $time ) {
     <div class="nv-shell nv-protein__note"><p>Published standard meal totals. Your final nutrition changes with ingredients, portions and extras.</p><a href="<?php echo esc_url( $nutrition_url ); ?>">View nutritional info →</a></div>
   </section>
 
+  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>UBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Uberrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span></div></section>
+
   <section id="locations" class="nv-locations" aria-labelledby="nv-flight-title"><div class="nv-shell nv-locations__layout">
     <div class="nv-locations__heading" data-nv-reveal><p class="nv-eyebrow">TEXAS, TWO WAYS</p><h2 id="nv-flight-title">FRESH FLAVOR<br><span>HAS LANDED.</span></h2><p>Two neighborhood locations. One unmistakably fresh experience.</p></div>
     <div class="nv-locations__grid">
@@ -177,26 +181,19 @@ $format_time = static function ( $time ) {
     ?>
       <article class="nv-location-card <?php echo esc_attr( $card_class ); ?>" data-nv-reveal>
         <span><?php echo esc_html( str_pad( (string) ( $location_index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span>
-        <img src="<?php echo esc_url( $location['image'] ); ?>" alt="<?php echo esc_attr( 'Überrito ' . $location['name'] . ' exterior' ); ?>" width="900" height="620" loading="lazy">
+        <img src="<?php echo $secure_asset( $location['image'] ); ?>" alt="<?php echo esc_attr( 'Überrito ' . $location['name'] . ' exterior' ); ?>" width="900" height="620" loading="lazy">
         <div>
           <div class="nv-location-card__topline"><h3><?php echo esc_html( $location['name'] ); ?></h3><b class="nv-location-status <?php echo $status['is_open'] ? 'is-open' : 'is-closed'; ?>"><?php echo esc_html( $status['label'] ); ?></b></div>
           <p><?php echo esc_html( $location['address_one'] ); ?><br><?php echo esc_html( $location['address_two'] ); ?></p>
           <p class="nv-location-hours">Daily: <?php echo esc_html( $format_time( $location['open_time'] ) . ' - ' . $format_time( $location['close_time'] ) ); ?></p>
-          <a href="<?php echo esc_url( $location['directions'] ); ?>" target="_blank" rel="noopener">Get directions →</a>
+          <div class="nv-location-actions"><a class="nv-location-order" href="<?php echo esc_url( $order_url ); ?>" target="_blank" rel="noopener">Order online →</a><a class="nv-location-directions" href="<?php echo esc_url( $location['directions'] ); ?>" target="_blank" rel="noopener">Get directions →</a></div>
         </div>
       </article>
     <?php endforeach; ?>
     </div>
   </div></section>
 
-  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>UBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Uberrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span></div></section>
-
-  <section id="merch" class="nv-merch" aria-labelledby="nv-merch-title"><div class="nv-shell nv-merch__layout">
-    <div class="nv-merch__copy" data-nv-reveal><p class="nv-eyebrow">OFFICIAL MERCH · LIMITED DROPS</p><h2 id="nv-merch-title"><span class="nv-merch-line">WEAR THE</span><span class="nv-merch-line nv-merch-line--brand">ÜBERRITO</span><span class="nv-merch-line">LIFESTYLE.</span></h2><p>Premium apparel, drinkware and everyday essentials designed for true Überrito fans.</p><a class="nv-pill nv-pill--green nv-magnetic" href="#nv-mobile-menu" data-nv-open-menu>Shop merch <span>→</span></a></div>
-    <div class="nv-merch__art nv-parallax" data-depth="14" data-nv-reveal><img class="nv-merch__collection" src="<?php echo $asset( 'merch-official.webp' ); ?>" alt="Official Überrito merchandise" width="1024" height="1024" loading="lazy"><div>DROP<br><b>001</b></div></div>
-  </div></section>
-
-  <section id="rewards" class="nv-reward-ribbon" aria-label="Überrito rewards"><div class="nv-shell nv-reward-layout"><div class="nv-reward-copy"><p>NÜ REWARDS · IT'S TIME TO JOIN</p><h2>WANT SOMETHING <span>FREE</span> WITH THAT ORDER?</h2><strong>New members get 60 points instantly, enough to unlock any side free. Takes 30 seconds. Redeem it today.</strong><a class="nv-pill nv-pill--green nv-reward-cta nv-magnetic" href="<?php echo esc_url( $loyalty_url ); ?>"><span>Join NÜ Rewards</span><b>→</b></a></div><a class="nv-reward-visual nv-magnetic" href="<?php echo esc_url( $loyalty_url ); ?>" aria-label="Join NÜ Rewards and get a free side"><img src="<?php echo $asset( 'nachos.webp' ); ?>" alt="Fresh Überrito nachos, a popular side" width="800" height="800" loading="lazy"><span><b>60</b> bonus points</span><em>FREE SIDE →</em></a></div></section>
+  <section id="rewards" class="nv-reward-ribbon" aria-label="Überrito rewards"><div class="nv-shell nv-reward-layout"><div class="nv-reward-copy"><p>NÜ REWARDS · IT'S TIME TO JOIN</p><h2>WANT SOMETHING <span>FREE</span> WITH THAT ORDER?</h2><strong>New members get 60 points instantly, enough to unlock any side free. Takes 30 seconds. Redeem it today.</strong><a class="nv-pill nv-pill--green nv-reward-cta nv-magnetic" href="<?php echo esc_url( $loyalty_url ); ?>"><span>Join NÜ Rewards</span><b>→</b></a></div><a class="nv-reward-visual nv-magnetic" href="<?php echo esc_url( $loyalty_url ); ?>" aria-label="Join NÜ Rewards and get a free side"><img src="<?php echo $plugin_asset( 'assets/chips-and-queso.webp' ); ?>" alt="Uberrito chips and queso side" width="1200" height="800" loading="lazy"><span><b>60</b> bonus points</span><em>FREE SIDE →</em></a></div></section>
 
   <section id="newsletter" class="nv-footer-signup" aria-labelledby="nv-newsletter-title"><div class="nv-shell nv-footer-signup__grid">
     <div><p class="nv-eyebrow">THE FRESH LIST</p><h2 id="nv-newsletter-title">FRESH DROPS.<br>BOLD PERKS.</h2><p>Get Uberrito offers, new menu news and NÜ Rewards updates, made your way.</p></div>
@@ -212,13 +209,6 @@ $format_time = static function ( $time ) {
   </div></section>
 
   <footer class="nv-footer">
-    <div class="nv-game-arena">
-      <div class="nv-game-intro"><p>PLAY WITH YOUR FOOD</p><h2>SLICE THE FRESH.<br><span>DODGE THE BOMBS.</span></h2><small>Move your mouse or finger through the open play area.</small></div>
-      <div class="nv-game-hud" aria-live="polite"><div class="nv-game-score" hidden>SCORE <b data-game-score>0</b></div><div class="nv-game-high">HIGH SCORE <b data-game-high><?php echo esc_html( number_format_i18n( max( 120000, absint( get_option( 'uberrito_game_high_score', 120000 ) ) ) ) ); ?></b></div><div class="nv-game-lives" aria-label="Three lives"><span>🌯</span><span>🌯</span><span>🌯</span></div></div>
-      <div class="nv-game-over" hidden><p>GAME OVER</p><strong data-game-final>0</strong><button type="button" data-game-restart>Roll again</button></div>
-      <div class="nv-ninja-stage"><div class="nv-slash-trail"></div><?php foreach ( array( 'wrapped-burrito.png.webp', 'Fajita-Steak.webp', 'lime-slices.png.webp', 'nachos.webp', 'Bowl-1.webp', 'tacos.webp', 'Salad-1.webp', 'Grilled-Chicken.webp', 'Grilled-Shrimp.webp', 'Shredded-Pork-Carnitas.webp', 'Ground-Beef.webp', 'Guacamole.png.webp' ) as $index => $food ) : ?><span class="nv-ninja-item nv-ninja-item--<?php echo esc_attr( (string) ( $index + 1 ) ); ?>" data-ninja-item data-points="<?php echo esc_attr( (string) ( 250 + ( $index * 75 ) ) ); ?>"><i class="nv-ninja-half nv-ninja-half--left" style="--food:url('<?php echo $asset( $food ); ?>')"></i><i class="nv-ninja-half nv-ninja-half--right" style="--food:url('<?php echo $asset( $food ); ?>')"></i></span><?php endforeach; ?><?php for ( $bomb = 1; $bomb <= 4; $bomb++ ) : ?><span class="nv-ninja-item nv-ninja-bomb nv-ninja-bomb--<?php echo esc_attr( (string) $bomb ); ?>" data-ninja-item data-bomb aria-label="Bomb"><i></i><b></b><em>!</em></span><?php endfor; ?></div>
-    </div>
-    <div class="nv-shell nv-footer__top"><p>Slice food for points</p><p>Bombs cost one burrito</p><p>Three strikes end the run</p></div>
     <div class="nv-footer__word"><img src="<?php echo $asset( 'uberrito-white-logo.png' ); ?>" alt="Überrito Fresh Mex" width="854" height="155" loading="lazy"></div>
     <div class="nv-shell nv-footer__base">
       <p>© <?php echo esc_html( wp_date( 'Y' ) ); ?> Überrito</p>

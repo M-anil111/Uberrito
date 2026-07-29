@@ -48,6 +48,6 @@
     function reset(){score=0;lives=3;playing=true;if(scoreBox)scoreBox.hidden=true;if(over)over.hidden=true;footer.classList.remove('is-game-over');items.forEach(function(item){item.dataset.hit='0';item.classList.remove('is-sliced','is-exploded')});update();start()}
     stage.addEventListener('pointermove',slash,{passive:true});stage.addEventListener('touchmove',function(e){var t=e.touches[0];if(t)slash(t)},{passive:true});if(restart)restart.onclick=reset;update();if(config.gameEndpoint)fetch(config.gameEndpoint,{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(data){if(data&&data.highScore){high=Math.max(120000,Number(data.highScore));update()}}).catch(function(){});if('IntersectionObserver'in window){new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)start();else stop()})},{threshold:.14}).observe(footer)}else start()}
 
-  function init(){loader();offers();heroSlider();navigation();megaNavigation();reveals();parallax();magnetic();pointerCharacters();pointerTrail();flight();previews();fruitNinja()}
+  function init(){loader();offers();heroSlider();navigation();megaNavigation();reveals();parallax();magnetic();pointerCharacters();pointerTrail();previews()}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
