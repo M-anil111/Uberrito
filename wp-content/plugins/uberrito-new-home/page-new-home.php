@@ -110,8 +110,27 @@ $format_time = static function ( $time ) {
 
   <section class="nv-feels" aria-labelledby="nv-feels-title"><div class="nv-feels__wave"></div><div class="nv-shell nv-feels__stage">
     <div class="nv-feels__copy" data-nv-reveal><p class="nv-eyebrow">THE GOOD STUFF</p><h2 id="nv-feels-title">FOOD THAT<br><span>FEELS GOOD.</span></h2><p>Bright, fresh, filling and completely yours. We prep daily so every bite hits different—in the best way.</p></div>
-    <div class="nv-burrito-pal" data-nv-reveal aria-label="A playful standing burrito character that follows your pointer"><span class="nv-burrito-arm nv-burrito-arm--left"></span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt="Standing Überrito burrito character" width="900" height="452"><span class="nv-character-eyes"><i class="nv-eye"><b></b></i><i class="nv-eye"><b></b></i></span><span class="nv-burrito-smile"></span><span class="nv-burrito-arm nv-burrito-arm--right"></span><span class="nv-burrito-leg nv-burrito-leg--left"></span><span class="nv-burrito-leg nv-burrito-leg--right"></span><span class="nv-orbit-tag nv-orbit-tag--one">Fresh daily</span><span class="nv-orbit-tag nv-orbit-tag--two">Big flavor</span><span class="nv-orbit-tag nv-orbit-tag--three">Your way</span></div>
+    <div class="nv-feels__food nv-parallax" data-depth="12" data-nv-reveal><img src="<?php echo $asset( 'burrito.webp' ); ?>" alt="Fresh Uberrito burritos filled with grilled protein, rice and vegetables" width="1000" height="710" loading="lazy"><span>Fresh daily</span><span>Big flavor</span><span>Made your way</span></div>
   </div></section>
+
+  <section class="nv-protein" aria-labelledby="nv-protein-title">
+    <div class="nv-shell nv-protein__intro" data-nv-reveal>
+      <p class="nv-eyebrow">BUILD IT STRONG</p>
+      <h2 id="nv-protein-title">GET THAT<br><span>PROTEIN.</span></h2>
+      <p>Start with grilled chicken, cilantro lime rice, black beans, guacamole and pico. Choose a bowl or wrap it in a flour tortilla.</p>
+    </div>
+    <div class="nv-shell nv-protein__grid">
+      <article class="nv-protein-card nv-protein-card--bowl" data-nv-reveal>
+        <div class="nv-protein-card__image"><img src="<?php echo $plugin_asset( 'protein-bowl.webp' ); ?>" alt="Uberrito high-protein bowl" width="1200" height="887" loading="lazy"></div>
+        <div class="nv-protein-card__copy"><p>01 · HIGH-PROTEIN BOWL</p><h3>28G PROTEIN</h3><strong>12G FIBER</strong><a href="<?php echo esc_url( $order_url ); ?>">Build this bowl →</a></div>
+      </article>
+      <article class="nv-protein-card nv-protein-card--burrito" data-nv-reveal>
+        <div class="nv-protein-card__image"><img src="<?php echo $plugin_asset( 'protein-burrito.jpg' ); ?>" alt="Uberrito high-protein burrito" width="500" height="500" loading="lazy"></div>
+        <div class="nv-protein-card__copy"><p>02 · HIGH-PROTEIN BURRITO</p><h3>36G PROTEIN</h3><strong>14G FIBER</strong><a href="<?php echo esc_url( $order_url ); ?>">Build this burrito →</a></div>
+      </article>
+    </div>
+    <div class="nv-shell nv-protein__note"><p>Approximate totals for the suggested build above, calculated from Uberrito's published serving data. Your final nutrition changes with ingredients and portions.</p><a href="https://uberrito.com/food/nutritional-info/">View nutritional info →</a></div>
+  </section>
 
   <section id="locations" class="nv-flight" aria-labelledby="nv-flight-title"><div class="nv-flight__sticky">
     <div class="nv-shell nv-flight__heading" data-nv-reveal><p class="nv-eyebrow">TEXAS, TWO WAYS</p><h2 id="nv-flight-title">FRESH FLAVOR<br><span>HAS LANDED.</span></h2></div>
@@ -134,7 +153,7 @@ $format_time = static function ( $time ) {
     <?php endforeach; ?>
   </div></section>
 
-  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>ÜBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Überrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span><div class="nv-clippy nv-clippy--catering" aria-hidden="true"><span class="nv-clippy__bubble">Need lunch for the whole crew? I got you!</span><img src="<?php echo $asset( 'wrapped-burrito.png.webp' ); ?>" alt=""><span class="nv-clippy__eyes"><i></i><i></i></span></div></div></section>
+  <section id="catering" class="nv-catering" aria-labelledby="nv-catering-title"><div class="nv-catering__copy" data-nv-reveal><p class="nv-eyebrow">FEED THE WHOLE GROUP CHAT</p><h2 id="nv-catering-title">CATER WITH<br><span>UBERRITO.</span></h2><p>Corporate events, parties, game days or just because. We’ve got you.</p><a class="nv-pill nv-pill--green nv-magnetic" href="<?php echo esc_url( $catering_url ); ?>">Cater now <span>→</span></a></div><div class="nv-catering__visual" data-nv-reveal><img src="<?php echo $plugin_asset( 'catering-spread.webp' ); ?>" alt="Uberrito catering spread with fresh trays and sides" width="1672" height="941" loading="lazy"><span>Office lunch?</span><span>Game day?</span><span>We got you.</span></div></section>
 
   <section id="merch" class="nv-merch" aria-labelledby="nv-merch-title"><div class="nv-shell nv-merch__layout">
     <div class="nv-merch__copy" data-nv-reveal><p class="nv-eyebrow">OFFICIAL MERCH · LIMITED DROPS</p><h2 id="nv-merch-title">WEAR THE<br><span>ÜBERRITO</span><br>LIFESTYLE.</h2><p>Premium apparel, drinkware and everyday essentials designed for true Überrito fans.</p><a class="nv-pill nv-pill--green nv-magnetic" href="#nv-mobile-menu" data-nv-open-menu>Shop merch <span>→</span></a></div>
