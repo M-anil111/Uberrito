@@ -21,6 +21,10 @@ function hello_elementor_child_enqueue_styles() {
  */
 add_action( 'wp_enqueue_scripts', 'ubr_effects_enqueue', 20 );
 function ubr_effects_enqueue() {
+	if ( is_page( 'new-home' ) ) {
+		return;
+	}
+
 	$dir = get_stylesheet_directory();
 	$uri = get_stylesheet_directory_uri();
 	$css = $dir . '/assets/ubr-effects.css';
@@ -61,6 +65,9 @@ add_action( 'wp_enqueue_scripts', 'hello_child_enqueue_styles', PHP_INT_MAX );
  * Swiper + GSAP Assets
  */
 function uberrito_enqueue_animation_assets() {
+	if ( is_page( 'new-home' ) ) {
+		return;
+	}
 
     // Swiper CSS
     wp_enqueue_style(
@@ -99,3 +106,105 @@ function uberrito_enqueue_animation_assets() {
 
 }
 add_action( 'wp_enqueue_scripts', 'uberrito_enqueue_animation_assets' );
+
+/**
+ * Homepage redesign assets. Kept separate from the legacy Elementor styles so
+ * the new experience can be reviewed and rolled back independently.
+ */
+function uberrito_enqueue_home_redesign_assets() {
+	if ( ! is_page( 'uberrito-home' ) ) {
+		return;
+	}
+
+	$dir = get_stylesheet_directory();
+	$uri = get_stylesheet_directory_uri();
+	$css = $dir . '/assets/css/home-redesign.css';
+	$js  = $dir . '/assets/js/home-redesign.js';
+
+	wp_enqueue_style(
+		'uberrito-home-redesign',
+		$uri . '/assets/css/home-redesign.css',
+		array( 'child-style' ),
+		filemtime( $css )
+	);
+
+	wp_enqueue_script(
+		'uberrito-home-redesign',
+		$uri . '/assets/js/home-redesign.js',
+		array( 'custom-js' ),
+		filemtime( $js ),
+		true
+	);
+
+	wp_localize_script(
+		'uberrito-home-redesign',
+		'UberritoHome',
+		array(
+			'rewardsUrl' => home_url( '/rewards/' ),
+			'orderUrl'   => 'https://uberrito.toast.site/',
+			'assetsUrl'  => wp_get_upload_dir()['baseurl'] . '/2026/07/',
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_enqueue_home_redesign_assets', 30 );
+
+/**
+ * Give the redesign a dedicated body hook without changing Elementor data.
+ */
+function uberrito_home_redesign_body_class( $classes ) {
+	if ( is_page( 'uberrito-home' ) ) {
+		$classes[] = 'ub-home-redesign';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'uberrito_home_redesign_body_class' );
+
+/**
+ * Experimental CRAV-inspired homepage. This is intentionally isolated at
+ * /new-home/ so the approved homepage and the rest of the site are untouched.
+ */
+function uberrito_enqueue_new_home_assets() {
+	if ( ! is_page( 'new-home' ) ) {
+		return;
+	}
+
+	$dir = get_stylesheet_directory();
+	$uri = get_stylesheet_directory_uri();
+
+	wp_enqueue_style(
+		'uberrito-new-home',
+		$uri . '/assets/css/new-home.css',
+		array( 'child-style' ),
+		filemtime( $dir . '/assets/css/new-home.css' )
+	);
+
+	wp_enqueue_script(
+		'uberrito-new-home',
+		$uri . '/assets/js/new-home.js',
+		array(),
+		filemtime( $dir . '/assets/js/new-home.js' ),
+		true
+	);
+
+	wp_localize_script(
+		'uberrito-new-home',
+		'UberritoNewHome',
+		array(
+			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
+			'orderUrl'     => 'https://uberrito.toast.site/',
+			'rewardsUrl'   => home_url( '/rewards/' ),
+			'locationsUrl' => home_url( '/locations/' ),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_enqueue_new_home_assets', 35 );
+
+function uberrito_new_home_body_class( $classes ) {
+	if ( is_page( 'new-home' ) ) {
+		$classes[] = 'ub-new-home-page';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'uberrito_new_home_body_class' );

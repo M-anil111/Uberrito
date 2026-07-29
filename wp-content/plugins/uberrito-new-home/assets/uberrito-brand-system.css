@@ -1,0 +1,33 @@
+@font-face{font-family:"Grota Sans Regular";src:url("fonts/grota-sans-regular.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Grota Sans Heavy";src:url("fonts/grota-sans-heavy.otf") format("opentype");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"Grota Sans Alt Heavy";src:url("fonts/grota-sans-alt-heavy.otf") format("opentype");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"Garage Gothic Regular";src:url("fonts/garage-gothic-regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+
+:root{
+  --e-global-color-primary:#006831;
+  --e-global-color-secondary:#92bf38;
+  --e-global-color-text:#1a1a1a;
+  --e-global-color-accent:#e85025;
+  --ub-tomatillo:#92bf38;
+  --ub-serrano:#006831;
+  --ub-cotija:#ffffff;
+  --ub-crispy:#e6e7e8;
+  --ub-avocado:#b9d457;
+  --ub-cilantro:#e0eed0;
+  --ub-jicama:#f8f8d4;
+  --ub-corn:#f4c628;
+  --ub-habanero:#f6932a;
+  --ub-tomato:#e85025;
+  --ub-font-body:"Grota Sans Regular","Helvetica Neue",Arial,sans-serif;
+  --ub-font-heavy:"Grota Sans Heavy","Arial Black",sans-serif;
+  --ub-font-headline:"Grota Sans Alt Heavy","Grota Sans Heavy","Arial Black",sans-serif;
+  --ub-font-condensed:"Garage Gothic Regular","Arial Narrow",Impact,sans-serif;
+}
+
+body{font-family:var(--ub-font-body)}
+body:not(.ub-new-home-page) h1{font-family:var(--ub-font-headline);font-size:clamp(3.5rem,7vw,7rem);font-weight:900;line-height:.9;letter-spacing:-.02em}
+body:not(.ub-new-home-page) h2{font-family:var(--ub-font-headline);font-size:clamp(2.8rem,5vw,5.5rem);font-weight:900;line-height:.92}
+body:not(.ub-new-home-page) h3{font-family:var(--ub-font-condensed);font-size:clamp(2rem,3.4vw,3.6rem);font-weight:400;line-height:.95;text-transform:uppercase}
+body:not(.ub-new-home-page) h4{font-family:var(--ub-font-heavy);font-size:clamp(1.35rem,2vw,2rem);font-weight:900;line-height:1.05}
+body:not(.ub-new-home-page) h5{font-family:var(--ub-font-heavy);font-size:1.1rem;font-weight:900;line-height:1.15;letter-spacing:.04em;text-transform:uppercase}
+body:not(.ub-new-home-page) h6{font-family:var(--ub-font-heavy);font-size:.78rem;font-weight:900;line-height:1.2;letter-spacing:.12em;text-transform:uppercase}
