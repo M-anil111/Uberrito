@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 1.9.0
+ * Version: 2.0.6
  * Author: Uberrito
  */
 
@@ -173,22 +173,22 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v190',
-		$base_url . 'new-home-v190.css',
+		'uberrito-new-home-live-v206',
+		$base_url . 'new-home-v206.css',
 		array(),
-		'1.9.0'
+		'2.0.6'
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v183',
-		$base_url . 'new-home-v183.js',
+		'uberrito-new-home-live-v201',
+		$base_url . 'new-home-v201.js',
 		array(),
-		'1.9.0',
+		'2.0.6',
 		true
 	);
 
 	wp_localize_script(
-		'uberrito-new-home-live-v183',
+		'uberrito-new-home-live-v201',
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
@@ -301,7 +301,7 @@ function uberrito_new_home_filter_style_tag( $html, $handle ) {
 		return $html;
 	}
 
-	$allowed = array( 'uberrito-new-home-live-v190', 'admin-bar', 'dashicons' );
+	$allowed = array( 'uberrito-new-home-live-v206', 'admin-bar', 'dashicons' );
 	return in_array( $handle, $allowed, true ) ? $html : '';
 }
 add_filter( 'style_loader_tag', 'uberrito_new_home_filter_style_tag', 999, 2 );
@@ -311,7 +311,7 @@ function uberrito_new_home_filter_script_tag( $tag, $handle ) {
 		return $tag;
 	}
 
-	return 'uberrito-new-home-live-v183' === $handle ? $tag : '';
+	return 'uberrito-new-home-live-v201' === $handle ? $tag : '';
 }
 add_filter( 'script_loader_tag', 'uberrito_new_home_filter_script_tag', 999, 2 );
 
@@ -323,6 +323,72 @@ function uberrito_new_home_plugin_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'uberrito_new_home_plugin_body_class' );
+
+/**
+ * Make the approved brand palette and type hierarchy available to standard
+ * WordPress content, HTML blocks and Elementor-authored pages.
+ */
+function uberrito_brand_system_assets() {
+	if ( is_page( 'new-home' ) ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'uberrito-brand-system',
+		plugin_dir_url( __FILE__ ) . 'assets/uberrito-brand-system.css',
+		array(),
+		'2.0.0'
+	);
+}
+add_action( 'wp_enqueue_scripts', 'uberrito_brand_system_assets', 30 );
+
+function uberrito_sync_elementor_brand_kit() {
+	if ( '2.0.0' === get_option( 'uberrito_brand_kit_version' ) ) {
+		return;
+	}
+
+	$kit_id = absint( get_option( 'elementor_active_kit' ) );
+	if ( ! $kit_id ) {
+		return;
+	}
+
+	$settings = get_post_meta( $kit_id, '_elementor_page_settings', true );
+	$settings = is_array( $settings ) ? $settings : array();
+	$settings['system_colors'] = array(
+		array( '_id' => 'primary', 'title' => 'Serrano Green', 'color' => '#006831' ),
+		array( '_id' => 'secondary', 'title' => 'Tomatillo Green', 'color' => '#92bf38' ),
+		array( '_id' => 'text', 'title' => 'Body Text', 'color' => '#1a1a1a' ),
+		array( '_id' => 'accent', 'title' => 'Tomato Red', 'color' => '#e85025' ),
+	);
+	$settings['custom_colors'] = array(
+		array( '_id' => 'cotija', 'title' => 'Cotija White', 'color' => '#ffffff' ),
+		array( '_id' => 'crispy', 'title' => 'Crispy Gray', 'color' => '#e6e7e8' ),
+		array( '_id' => 'avocado', 'title' => 'Avocado Green', 'color' => '#b9d457' ),
+		array( '_id' => 'cilantro', 'title' => 'Cilantro Lime', 'color' => '#e0eed0' ),
+		array( '_id' => 'jicama', 'title' => 'Jicama Yellow', 'color' => '#f8f8d4' ),
+		array( '_id' => 'corn', 'title' => 'Corn Yellow', 'color' => '#f4c628' ),
+		array( '_id' => 'habanero', 'title' => 'Habanero Orange', 'color' => '#f6932a' ),
+	);
+	$settings['body_typography_typography'] = 'custom';
+	$settings['body_typography_font_family'] = 'Grota Sans Regular';
+	$settings['body_typography_font_weight'] = '400';
+	$settings['h1_typography_typography'] = 'custom';
+	$settings['h1_typography_font_family'] = 'Grota Sans Alt Heavy';
+	$settings['h1_typography_font_weight'] = '900';
+	$settings['h2_typography_typography'] = 'custom';
+	$settings['h2_typography_font_family'] = 'Grota Sans Alt Heavy';
+	$settings['h2_typography_font_weight'] = '900';
+	$settings['h3_typography_typography'] = 'custom';
+	$settings['h3_typography_font_family'] = 'Garage Gothic Regular';
+	$settings['h3_typography_font_weight'] = '400';
+	$settings['h4_typography_typography'] = 'custom';
+	$settings['h4_typography_font_family'] = 'Grota Sans Heavy';
+	$settings['h4_typography_font_weight'] = '900';
+
+	update_post_meta( $kit_id, '_elementor_page_settings', $settings );
+	update_option( 'uberrito_brand_kit_version', '2.0.0', false );
+}
+add_action( 'init', 'uberrito_sync_elementor_brand_kit', 30 );
 
 /**
  * The staging review page must always show the newest design build.
