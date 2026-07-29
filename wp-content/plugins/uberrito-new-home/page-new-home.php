@@ -12,7 +12,7 @@ $catering_url = home_url( '/catering/' );
 $about_url = home_url( '/our-story/' );
 $franchise_url = 'https://uberritofranchising.com/';
 $gift_cards_url = home_url( '/gift-cards/' );
-$loyalty_url = home_url( '/loyalty/' );
+$loyalty_url = $rewards_url;
 $location_data = function_exists( 'uberrito_new_home_locations' ) ? uberrito_new_home_locations() : array();
 $format_time = static function ( $time ) {
 	$parsed = DateTimeImmutable::createFromFormat( 'H:i', $time );
@@ -31,7 +31,7 @@ $format_time = static function ( $time ) {
 
 <div class="nv-loader" role="dialog" aria-modal="true" aria-label="Preparing your Überrito experience">
   <div class="nv-loader__orbit" aria-hidden="true"><span class="nv-food-icon nv-food-icon--bean">●</span><span class="nv-food-icon nv-food-icon--chip">▲</span><span class="nv-food-icon nv-food-icon--cheese">▰</span><span class="nv-food-icon nv-food-icon--lime">◉</span></div>
-  <div class="nv-loader__burrito nv-foil-character" aria-hidden="true"><img src="<?php echo $plugin_asset( 'assets/foil-burrito-v2.png' ); ?>" alt="" width="1942" height="833"><span class="nv-foil-eyes"><i></i><i></i></span><b class="nv-foil-smile"></b></div>
+  <div class="nv-loader__burrito nv-foil-character" aria-hidden="true"><img src="<?php echo $plugin_asset( 'assets/foil-burrito-v3.png' ); ?>" alt="" width="1536" height="1024"><span class="nv-foil-eyes"><i></i><i></i></span><b class="nv-foil-smile"></b></div>
   <p>Rolling something fresh...</p>
   <div class="nv-loader__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
 </div>
@@ -122,7 +122,7 @@ $format_time = static function ( $time ) {
   <section class="nv-feels" aria-labelledby="nv-feels-title"><div class="nv-feels__wave"></div><div class="nv-shell nv-feels__stage">
     <div class="nv-feels__copy" data-nv-reveal><p class="nv-eyebrow">THE GOOD STUFF</p><h2 id="nv-feels-title">FOOD THAT<br><span>FEELS GOOD.</span></h2><p>Bright, fresh, filling and completely yours. We prep daily so every bite hits different—in the best way.</p></div>
     <div class="nv-feels__food nv-parallax" data-depth="12" data-nv-reveal>
-      <div class="nv-burrito-character nv-foil-character" aria-label="A playful foil-wrapped Uberrito burrito"><img src="<?php echo $plugin_asset( 'assets/foil-burrito-v2.png' ); ?>" alt="Foil-wrapped Uberrito burrito" width="1942" height="833" loading="lazy"><span class="nv-foil-eyes"><i></i><i></i></span><b class="nv-foil-smile"></b><i class="nv-foil-arm nv-foil-arm--left"></i><i class="nv-foil-arm nv-foil-arm--right"></i><i class="nv-foil-leg nv-foil-leg--left"></i><i class="nv-foil-leg nv-foil-leg--right"></i></div>
+      <div class="nv-burrito-character nv-foil-character" aria-label="A playful foil-wrapped Uberrito burrito"><img src="<?php echo $plugin_asset( 'assets/foil-burrito-v3.png' ); ?>" alt="Foil-wrapped Uberrito burrito" width="1536" height="1024" loading="lazy"><span class="nv-foil-eyes"><i></i><i></i></span><b class="nv-foil-smile"></b><i class="nv-foil-arm nv-foil-arm--left"></i><i class="nv-foil-arm nv-foil-arm--right"></i><i class="nv-foil-leg nv-foil-leg--left"></i><i class="nv-foil-leg nv-foil-leg--right"></i></div>
       <span>Fresh daily</span><span>Big flavor</span><span>Made your way</span>
     </div>
   </div></section>

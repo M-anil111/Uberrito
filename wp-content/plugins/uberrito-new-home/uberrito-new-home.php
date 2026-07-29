@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 2.0.6
+ * Version: 2.1.0
  * Author: Uberrito
  */
 
@@ -173,22 +173,22 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v206',
-		$base_url . 'new-home-v206.css',
+		'uberrito-new-home-live-v210',
+		$base_url . 'new-home-v210.css',
 		array(),
-		'2.0.6'
+		'2.1.0'
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v201',
-		$base_url . 'new-home-v201.js',
+		'uberrito-new-home-live-v210',
+		$base_url . 'new-home-v210.js',
 		array(),
-		'2.0.6',
+		'2.1.0',
 		true
 	);
 
 	wp_localize_script(
-		'uberrito-new-home-live-v201',
+		'uberrito-new-home-live-v210',
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
@@ -301,7 +301,7 @@ function uberrito_new_home_filter_style_tag( $html, $handle ) {
 		return $html;
 	}
 
-	$allowed = array( 'uberrito-new-home-live-v206', 'admin-bar', 'dashicons' );
+	$allowed = array( 'uberrito-new-home-live-v210', 'admin-bar', 'dashicons' );
 	return in_array( $handle, $allowed, true ) ? $html : '';
 }
 add_filter( 'style_loader_tag', 'uberrito_new_home_filter_style_tag', 999, 2 );
@@ -311,7 +311,7 @@ function uberrito_new_home_filter_script_tag( $tag, $handle ) {
 		return $tag;
 	}
 
-	return 'uberrito-new-home-live-v201' === $handle ? $tag : '';
+	return 'uberrito-new-home-live-v210' === $handle ? $tag : '';
 }
 add_filter( 'script_loader_tag', 'uberrito_new_home_filter_script_tag', 999, 2 );
 
