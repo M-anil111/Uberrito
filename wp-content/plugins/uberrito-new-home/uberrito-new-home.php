@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 2.1.4
+ * Version: 2.2.2
  * Author: Uberrito
  */
 
@@ -15,6 +15,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/elementor-new-home-v142.php
  * Editable location details used by the isolated /new-home/ experience.
  */
 function uberrito_new_home_location_defaults() {
+	$uploads = trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/';
 	return array(
 		'atascocita' => array(
 			'name'         => 'Atascocita',
@@ -23,7 +24,7 @@ function uberrito_new_home_location_defaults() {
 			'open_time'    => '10:45',
 			'close_time'   => '21:00',
 			'directions'   => 'https://www.google.com/maps/dir/?api=1&destination=7025%20Farm%20to%20Market%201960%20Rd%20E%2C%20Humble%2C%20TX%2077346',
-			'image'        => plugin_dir_url( __FILE__ ) . 'location-atascocita-google.jpg',
+			'image'        => $uploads . 'uberrito-atascocita-exterior.jpeg',
 		),
 		'sugar_land' => array(
 			'name'         => 'Sugar Land',
@@ -32,7 +33,7 @@ function uberrito_new_home_location_defaults() {
 			'open_time'    => '10:30',
 			'close_time'   => '22:30',
 			'directions'   => 'https://www.google.com/maps/dir/?api=1&destination=2735%20Town%20Center%20Blvd%20N%2C%20Sugar%20Land%2C%20TX%2077479',
-			'image'        => plugin_dir_url( __FILE__ ) . 'location-sugar-land-google.png',
+			'image'        => $uploads . 'uberrito-restaurant-interior.jpeg',
 		),
 	);
 }
@@ -156,6 +157,170 @@ function uberrito_new_home_plugin_template( $template ) {
 add_filter( 'template_include', 'uberrito_new_home_plugin_template', 99 );
 
 /**
+ * Keep every unfinished staging destination inside staging.
+ */
+function uberrito_new_home_safe_url( $path, $label = '' ) {
+	$segments = array_filter( array_map( 'sanitize_title', explode( '/', trim( (string) $path, '/' ) ) ) );
+	$path     = implode( '/', $segments );
+	$page = $path ? get_page_by_path( $path ) : null;
+	if ( $page instanceof WP_Post && 'publish' === $page->post_status ) {
+		return get_permalink( $page );
+	}
+
+	return add_query_arg(
+		'section',
+		$label ? $label : ucwords( str_replace( '-', ' ', $path ) ),
+		home_url( '/coming-soon/' )
+	);
+}
+
+function uberrito_new_home_ensure_support_pages() {
+	if ( ! get_page_by_path( 'coming-soon' ) ) {
+		wp_insert_post(
+			array(
+				'post_title'   => 'Coming Soon',
+				'post_name'    => 'coming-soon',
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_content' => 'This fresh page is still being rolled.',
+			)
+		);
+	}
+
+	add_option( 'uberrito_game_high_score', 120000, '', false );
+	add_option( 'uberrito_game_scoreboard', array(), '', false );
+	if ( absint( get_option( 'uberrito_game_high_score', 0 ) ) < 120000 ) {
+		update_option( 'uberrito_game_high_score', 120000, false );
+	}
+
+	if ( '2.2.0' !== get_option( 'uberrito_new_home_location_asset_version' ) ) {
+		$locations = get_option( 'uberrito_new_home_locations', array() );
+		$locations = is_array( $locations ) ? $locations : array();
+		$defaults  = uberrito_new_home_location_defaults();
+		foreach ( $defaults as $key => $default ) {
+			$current = $locations[ $key ]['image'] ?? '';
+			if ( ! $current || str_contains( $current, 'location-atascocita-google' ) || str_contains( $current, 'location-sugar-land-google' ) ) {
+				$locations[ $key ]          = wp_parse_args( $locations[ $key ] ?? array(), $default );
+				$locations[ $key ]['image'] = $default['image'];
+			}
+		}
+		update_option( 'uberrito_new_home_locations', $locations, false );
+		update_option( 'uberrito_new_home_location_asset_version', '2.2.0', false );
+	}
+}
+add_action( 'init', 'uberrito_new_home_ensure_support_pages', 5 );
+
+function uberrito_new_home_support_template( $template ) {
+	if ( is_page( 'coming-soon' ) ) {
+		return plugin_dir_path( __FILE__ ) . 'page-coming-soon.php';
+	}
+	return $template;
+}
+add_filter( 'template_include', 'uberrito_new_home_support_template', 100 );
+
+/**
+ * Store the public high score and a compact top-ten scoreboard in WordPress.
+ */
+function uberrito_new_home_register_game_api() {
+	register_rest_route(
+		'uberrito/v1',
+		'/game-score',
+		array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => static function () {
+					return rest_ensure_response( array( 'highScore' => max( 120000, absint( get_option( 'uberrito_game_high_score', 120000 ) ) ) ) );
+				},
+				'permission_callback' => '__return_true',
+			),
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => static function ( WP_REST_Request $request ) {
+					$score = min( 10000000, max( 0, absint( $request->get_param( 'score' ) ) ) );
+					$high  = max( 120000, absint( get_option( 'uberrito_game_high_score', 120000 ) ) );
+					if ( $score > $high ) {
+						$high = $score;
+						update_option( 'uberrito_game_high_score', $high, false );
+					}
+
+					if ( $score > 0 ) {
+						$board   = get_option( 'uberrito_game_scoreboard', array() );
+						$board   = is_array( $board ) ? $board : array();
+						$board[] = array( 'score' => $score, 'date' => current_time( 'mysql', true ) );
+						usort( $board, static fn( $a, $b ) => absint( $b['score'] ?? 0 ) <=> absint( $a['score'] ?? 0 ) );
+						update_option( 'uberrito_game_scoreboard', array_slice( $board, 0, 10 ), false );
+					}
+
+					return rest_ensure_response( array( 'highScore' => $high ) );
+				},
+				'permission_callback' => '__return_true',
+			),
+		)
+	);
+}
+add_action( 'rest_api_init', 'uberrito_new_home_register_game_api' );
+
+function uberrito_new_home_register_signups() {
+	register_post_type(
+		'uberrito_signup',
+		array(
+			'labels'       => array( 'name' => 'Newsletter Signups', 'singular_name' => 'Newsletter Signup' ),
+			'public'       => false,
+			'show_ui'      => true,
+			'show_in_menu' => 'tools.php',
+			'supports'     => array( 'title' ),
+		)
+	);
+}
+add_action( 'init', 'uberrito_new_home_register_signups' );
+
+function uberrito_new_home_newsletter_signup() {
+	$redirect = home_url( '/new-home/#newsletter' );
+	if ( ! isset( $_POST['uberrito_newsletter_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['uberrito_newsletter_nonce'] ) ), 'uberrito_newsletter' ) ) {
+		wp_safe_redirect( add_query_arg( 'signup', 'error', $redirect ) );
+		exit;
+	}
+
+	$first = sanitize_text_field( wp_unslash( $_POST['first_name'] ?? '' ) );
+	$last  = sanitize_text_field( wp_unslash( $_POST['last_name'] ?? '' ) );
+	$email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+	if ( ! $first || ! $last || ! is_email( $email ) ) {
+		wp_safe_redirect( add_query_arg( 'signup', 'error', $redirect ) );
+		exit;
+	}
+
+	$existing = get_posts(
+		array(
+			'post_type'      => 'uberrito_signup',
+			'post_status'    => 'private',
+			'posts_per_page' => 1,
+			'meta_key'       => 'email',
+			'meta_value'     => $email,
+			'fields'         => 'ids',
+		)
+	);
+	if ( ! $existing ) {
+		$post_id = wp_insert_post(
+			array(
+				'post_type'   => 'uberrito_signup',
+				'post_status' => 'private',
+				'post_title'  => $first . ' ' . $last . ' (' . $email . ')',
+			)
+		);
+		if ( $post_id && ! is_wp_error( $post_id ) ) {
+			update_post_meta( $post_id, 'first_name', $first );
+			update_post_meta( $post_id, 'last_name', $last );
+			update_post_meta( $post_id, 'email', $email );
+		}
+	}
+
+	wp_safe_redirect( add_query_arg( 'signup', 'success', $redirect ) );
+	exit;
+}
+add_action( 'admin_post_nopriv_uberrito_newsletter_signup', 'uberrito_new_home_newsletter_signup' );
+add_action( 'admin_post_uberrito_newsletter_signup', 'uberrito_new_home_newsletter_signup' );
+
+/**
  * Load only the assets required by /new-home/.
  */
 function uberrito_new_home_plugin_assets() {
@@ -173,28 +338,30 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v210',
-		$base_url . 'new-home-v214.css',
+		'uberrito-new-home-live-v222',
+		$base_url . 'new-home-v222.css',
 		array(),
-		'2.1.0'
+		'2.2.2'
 	);
 
 	wp_enqueue_script(
-		'uberrito-new-home-live-v210',
-		$base_url . 'new-home-v214.js',
+		'uberrito-new-home-live-v222',
+		$base_url . 'new-home-v222.js',
 		array(),
-		'2.1.0',
+		'2.2.2',
 		true
 	);
 
 	wp_localize_script(
-		'uberrito-new-home-live-v210',
+		'uberrito-new-home-live-v222',
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
-			'orderUrl'     => 'https://uberrito.toast.site/',
-			'rewardsUrl'   => home_url( '/rewards/' ),
-			'locationsUrl' => home_url( '/locations/' ),
+			'orderUrl'     => uberrito_new_home_safe_url( 'order-online', 'Order Online' ),
+			'rewardsUrl'   => uberrito_new_home_safe_url( 'rewards', 'NU Rewards' ),
+			'locationsUrl' => uberrito_new_home_safe_url( 'locations', 'Locations' ),
+			'gameEndpoint' => rest_url( 'uberrito/v1/game-score' ),
+			'highScore'    => max( 120000, absint( get_option( 'uberrito_game_high_score', 120000 ) ) ),
 		)
 	);
 }
@@ -240,7 +407,7 @@ function uberrito_elementor_home_assets() {
 		'UberritoNewHome',
 		array(
 			'assetsUrl'    => trailingslashit( wp_get_upload_dir()['baseurl'] ) . '2026/07/',
-			'orderUrl'     => 'https://uberrito.toast.site/',
+			'orderUrl'     => uberrito_new_home_safe_url( 'order-online', 'Order Online' ),
 			'rewardsUrl'   => home_url( '/rewards/' ),
 			'locationsUrl' => home_url( '/locations/' ),
 		)
@@ -301,7 +468,7 @@ function uberrito_new_home_filter_style_tag( $html, $handle ) {
 		return $html;
 	}
 
-	$allowed = array( 'uberrito-new-home-live-v210', 'admin-bar', 'dashicons' );
+	$allowed = array( 'uberrito-new-home-live-v222', 'admin-bar', 'dashicons' );
 	return in_array( $handle, $allowed, true ) ? $html : '';
 }
 add_filter( 'style_loader_tag', 'uberrito_new_home_filter_style_tag', 999, 2 );
@@ -311,7 +478,7 @@ function uberrito_new_home_filter_script_tag( $tag, $handle ) {
 		return $tag;
 	}
 
-	return 'uberrito-new-home-live-v210' === $handle ? $tag : '';
+	return 'uberrito-new-home-live-v222' === $handle ? $tag : '';
 }
 add_filter( 'script_loader_tag', 'uberrito_new_home_filter_script_tag', 999, 2 );
 
@@ -343,7 +510,7 @@ function uberrito_brand_system_assets() {
 add_action( 'wp_enqueue_scripts', 'uberrito_brand_system_assets', 30 );
 
 function uberrito_sync_elementor_brand_kit() {
-	if ( '2.0.0' === get_option( 'uberrito_brand_kit_version' ) ) {
+	if ( '2.2.0' === get_option( 'uberrito_brand_kit_version' ) ) {
 		return;
 	}
 
@@ -376,7 +543,7 @@ function uberrito_sync_elementor_brand_kit() {
 	$settings['h1_typography_font_family'] = 'Grota Sans Alt Heavy';
 	$settings['h1_typography_font_weight'] = '900';
 	$settings['h2_typography_typography'] = 'custom';
-	$settings['h2_typography_font_family'] = 'Grota Sans Alt Heavy';
+	$settings['h2_typography_font_family'] = 'Grota Sans Heavy';
 	$settings['h2_typography_font_weight'] = '900';
 	$settings['h3_typography_typography'] = 'custom';
 	$settings['h3_typography_font_family'] = 'Garage Gothic Regular';
@@ -384,9 +551,15 @@ function uberrito_sync_elementor_brand_kit() {
 	$settings['h4_typography_typography'] = 'custom';
 	$settings['h4_typography_font_family'] = 'Grota Sans Heavy';
 	$settings['h4_typography_font_weight'] = '900';
+	$settings['h5_typography_typography'] = 'custom';
+	$settings['h5_typography_font_family'] = 'Grota Sans Heavy';
+	$settings['h5_typography_font_weight'] = '900';
+	$settings['h6_typography_typography'] = 'custom';
+	$settings['h6_typography_font_family'] = 'Garage Gothic Regular';
+	$settings['h6_typography_font_weight'] = '400';
 
 	update_post_meta( $kit_id, '_elementor_page_settings', $settings );
-	update_option( 'uberrito_brand_kit_version', '2.0.0', false );
+	update_option( 'uberrito_brand_kit_version', '2.2.0', false );
 }
 add_action( 'init', 'uberrito_sync_elementor_brand_kit', 30 );
 
