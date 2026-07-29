@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 2.1.0
+ * Version: 2.1.4
  * Author: Uberrito
  */
 
@@ -174,14 +174,14 @@ function uberrito_new_home_plugin_assets() {
 
 	wp_enqueue_style(
 		'uberrito-new-home-live-v210',
-		$base_url . 'new-home-v210.css',
+		$base_url . 'new-home-v214.css',
 		array(),
 		'2.1.0'
 	);
 
 	wp_enqueue_script(
 		'uberrito-new-home-live-v210',
-		$base_url . 'new-home-v210.js',
+		$base_url . 'new-home-v214.js',
 		array(),
 		'2.1.0',
 		true
