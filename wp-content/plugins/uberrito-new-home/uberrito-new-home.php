@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Uberrito New Home Experience
  * Description: Isolated /new-home/ redesign and motion system for staging review.
- * Version: 2.2.2
+ * Version: 2.3.0
  * Author: Uberrito
  */
 
@@ -338,17 +338,17 @@ function uberrito_new_home_plugin_assets() {
 	wp_dequeue_script( 'uberrito-new-home-live' );
 
 	wp_enqueue_style(
-		'uberrito-new-home-live-v222',
-		$base_url . 'new-home-v222.css',
+		'uberrito-new-home-live-v230',
+		$base_url . 'new-home-v230.css',
 		array(),
-		'2.2.2'
+		'2.3.0'
 	);
 
 	wp_enqueue_script(
 		'uberrito-new-home-live-v222',
 		$base_url . 'new-home-v222.js',
 		array(),
-		'2.2.2',
+		'2.3.0',
 		true
 	);
 
@@ -468,7 +468,7 @@ function uberrito_new_home_filter_style_tag( $html, $handle ) {
 		return $html;
 	}
 
-	$allowed = array( 'uberrito-new-home-live-v222', 'admin-bar', 'dashicons' );
+	$allowed = array( 'uberrito-new-home-live-v230', 'admin-bar', 'dashicons' );
 	return in_array( $handle, $allowed, true ) ? $html : '';
 }
 add_filter( 'style_loader_tag', 'uberrito_new_home_filter_style_tag', 999, 2 );
